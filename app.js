@@ -83,6 +83,12 @@ app.use('/', index);
 
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
+
+const profileRoutes = require('./routes/profiles');
+app.use('/', profileRoutes);
+
+const groupRoutes = require('./routes/groups');
+app.use('/', groupRoutes);
       
 
 module.exports = app;
