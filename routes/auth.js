@@ -83,7 +83,8 @@ router.get('/login/telegram/callback',
 
 passport.use(
   new TelegramStrategy({
-      clientID: process.env.TELEPASS_APPID,
+      // clientID: process.env.TELEPASS_APPID,
+      clientID: '+34644039695',
       clientSecret: process.env.TELEPASS_SECRET,
       callbackURL: `http://localhost:${process.env.PORT}/login/telegram/callback`
   },
