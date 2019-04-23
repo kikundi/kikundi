@@ -6,6 +6,7 @@ const Group = require("../models/Group");
 const Service = require("../models/Service");
 const Belong = require("../models/Belong");
 const Role = require("../models/Role");
+const Notification = require("../models/Notification");
 
 
 router.get('/tribe', ensureLoggedIn('auth/login'), (req, res, next) => {
@@ -27,7 +28,7 @@ router.post('/create-new-tribe', (req,res,next) => {
   let service = req.body.services;
   let members = req.body.members;
   let freePlace = members; 
-  let price = req.body.price;
+  let pricePerson = req.body.pricePerson;
   let description = req.body.description;
 
   let group = new Group({
@@ -36,7 +37,7 @@ router.post('/create-new-tribe', (req,res,next) => {
      service,
      members,
      freePlace,
-     price,
+     pricePerson,
      description
   })
   group.save()
@@ -61,8 +62,6 @@ router.post('/create-new-tribe', (req,res,next) => {
   .catch((err) => {
     next(err);
   });
-
-
  });
 
 router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
@@ -71,6 +70,39 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
   .populate('service')
   .then((groups) => {
     res.render('group/searchGroups', {groups});
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+router.post('/group/:groupid', ensureLoggedIn('auth/login'), (req, res, next) => {
+  Group.findById(req.params.groupid)
+  .populate('leader')
+  .populate('service')
+  .then((group) => {
+    res.render('group/group', group);
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+router.post('/sendRequest/:groupid', (req, res, next) => {
+  Group.findById(req.params.groupid)
+  .then((group) => {
+    let status = "Request";
+    let notification = new Notification({
+      idUserFrom: req.user.id,
+      idUserTo: group.leader,
+      idGroup: group._id,
+      status: status
+    });
+    notification.save()
+    .then()
+    .catch((err) => {
+      next(err);
+    });
   })
   .catch((err) => {
     next(err);
