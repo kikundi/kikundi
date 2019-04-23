@@ -21,12 +21,14 @@ router.post('/create-new-tribe', (req,res,next) => {
 
   let group = new Group({
      name,
+     leader: req.user.id,
      services,
      members,
      price,
      description
   })
   group.save()
+  .populate('leader')
   .then(res.redirect('/'));
  });
 
