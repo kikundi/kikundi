@@ -9,8 +9,10 @@ const User = require("../models/User");
 
 const bcryptSalt = 10;
 
+require('dotenv').config();
+
 mongoose
-  .connect('mongodb://localhost/kikundi', {useNewUrlParser: true})
+  .connect(process.env.MONGO, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
