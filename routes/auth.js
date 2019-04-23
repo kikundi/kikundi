@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require('passport');
 const router = express.Router();
 const User = require("../models/User");
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
 // Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
@@ -67,9 +68,9 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", ensureLoggedIn('/auth/login'), (req, res) => {
   req.logout();
-  res.redirect("/");
+  res.redirect("/auth/login");
 });
 
 module.exports = router;

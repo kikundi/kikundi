@@ -6,6 +6,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const Service = require("../models/Service");
+const Role = require("../models/Role");
 
 const bcryptSalt = 10;
 
@@ -20,27 +22,85 @@ mongoose
     console.error('Error connecting to mongo', err)
   });
 
-let users = [
+// let users = [
+//   {
+//     username: "alice",
+//     password: bcrypt.hashSync("alice", bcrypt.genSaltSync(bcryptSalt)),
+//   },
+//   {
+//     username: "bob",
+//     password: bcrypt.hashSync("bob", bcrypt.genSaltSync(bcryptSalt)),
+//   }
+// ]
+
+// User.deleteMany()
+// .then(() => {
+//   return User.create(users)
+// })
+// .then(usersCreated => {
+//   console.log(`${usersCreated.length} users created with the following id:`);
+//   console.log(usersCreated.map(u => u._id));
+// })
+// .then(() => {
+//   // Close properly the connection to Mongoose
+//   mongoose.disconnect()
+// })
+// .catch(err => {
+//   mongoose.disconnect()
+//   throw err
+// })
+
+// let services = [
+//   {
+//     name: "Netflix",
+//     picture: "img1"
+//   },
+//   {
+//     name: "Spotify",
+//     picture: "img2"
+//   },
+//   {
+//     name: "Movistar",
+//     picture: "img3"
+//   },
+//   {
+//     name: "HBO",
+//     picture: "img4"
+//   },
+//   {
+//     name: "beIn Sport",
+//     picture: "img5"
+//   }
+// ];
+
+// Service.deleteMany()
+// .then(() => {
+//   return Service.create(services)
+// })
+// .then(() => {
+//   mongoose.disconnect()
+// })
+// .catch(err => {
+//   mongoose.disconnect()
+//   throw err
+// })
+
+let roles = [
   {
-    username: "alice",
-    password: bcrypt.hashSync("alice", bcrypt.genSaltSync(bcryptSalt)),
+    name: "Admin",
+    picture: "img1"
   },
   {
-    username: "bob",
-    password: bcrypt.hashSync("bob", bcrypt.genSaltSync(bcryptSalt)),
+    name: "Member",
+    picture: "img2"
   }
-]
+];
 
-User.deleteMany()
+Role.deleteMany()
 .then(() => {
-  return User.create(users)
-})
-.then(usersCreated => {
-  console.log(`${usersCreated.length} users created with the following id:`);
-  console.log(usersCreated.map(u => u._id));
+  return Role.create(roles)
 })
 .then(() => {
-  // Close properly the connection to Mongoose
   mongoose.disconnect()
 })
 .catch(err => {
