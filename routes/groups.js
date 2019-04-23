@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const User = require("../models/User");
 const Group = require("../models/Group");
 
@@ -9,6 +10,8 @@ router.get('/tribe', (req, res, next) => {
 });
 
 router.get('/create-new-tribe', (req, res, next) => {
+  // Service.find()
+  // .then()
   res.render('group/newGroup');
 });
 
@@ -28,7 +31,6 @@ router.post('/create-new-tribe', (req,res,next) => {
      description
   })
   group.save()
-  .populate('leader')
   .then(res.redirect('/'));
  });
 
