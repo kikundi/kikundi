@@ -1,9 +1,9 @@
 const express = require("express");
-const passport = require('passport');
+const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User");
+const nodemailer = require("nodemailer")
 
-// Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
@@ -31,6 +31,7 @@ router.post("/signup", (req, res, next) => {
   const cardName = req.body.cardName;
   const cardMonth = req.body.cardMonth;
   const cardYear = req.body.cardYear;
+  const status = req.body.status;
 
   if (username === "" || password === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
@@ -43,6 +44,12 @@ router.post("/signup", (req, res, next) => {
       return;
     }
 
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let token = "";
+    for (let i = 0; i < 25; i++) {
+      token += characters[Math.floor(Math.random() * characters.length)];
+    }
+
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPass = bcrypt.hashSync(password, salt);
 
@@ -50,21 +57,60 @@ router.post("/signup", (req, res, next) => {
       username,
       password: hashPass,
       email,
-      phone, 
+      phone,
       cardNumber,
       cardName,
       cardMonth,
-      cardYear
+      cardYear,
+      status
     });
 
     newUser.save()
-    .then(() => {
-      res.redirect("/");
-    })
-    .catch(err => {
-      res.render("auth/signup", { message: "Something went wrong" });
-    })
+      .then(() => {
+        var transporter = nodemailer.createTransport({
+          service: "Gmail",
+          auth: {
+            user: `${process.env.MAILFROM}`,
+            pass: `${process.env.MAILPASS}`
+          }
+        })
+
+        let host = req.get('host');
+        let verificationLink = "http://" + req.get('host') + "/auth/confirm/" + token;
+
+        transporter.sendMail({
+          from: `${process.env.MAILFROM}`,
+          to: email,
+          subject: "Welcome to Kikundi!",
+          text: "You'll never pay alone...",
+          html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + verificationLink + ">Click here to verify</a>"
+        })
+        .then(info => console.log(info))
+        .catch(error => console.log(error));
+        res.redirect("/");
+      })
+      .catch(err => {
+        res.render("auth/signup", {message: "Something went wrong" });
+      })
   });
+});
+
+
+router.get("/auth/confirm/:confirmCode", (req, res) => {
+
+  let confirmToken = req.params.confirmCode;
+  let filterParam = { confirmationCode: { $eq: confirmToken } };
+  User.findOne(filterParam).select({ status: 1 })
+    .then((status) => {
+      let idConfirmed = status._id;
+  User.findByIdAndUpdate(idConfirmed, { status: "Active" })
+    .then(() => {
+      res.render("auth/login", { message: "Profile verified." });
+      })
+    })
+    .catch(error => {
+      res.redirect("/")
+    });
 });
 
 router.get("/logout", (req, res) => {
