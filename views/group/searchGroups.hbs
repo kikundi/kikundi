@@ -1,1 +1,11 @@
 <h2>Search tribes</h2>
+<ul>
+  {{#each groups}}
+    <li>
+      <p>Name: {{this.name}}</p>
+      <p>Admin: {{this.leader.username}}</p>
+      <p>Service: {{this.service.name}}</p>
+      <p>Free Place: {{this.freePlace}}</p>
+    </li>
+  {{/each}}
+</ul> 

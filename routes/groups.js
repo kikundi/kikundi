@@ -65,8 +65,16 @@ router.post('/create-new-tribe', (req,res,next) => {
 
  });
 
-router.get('/search-tribes', (req, res, next) => {
-  res.render('group/searchGroups');
+router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
+  Group.find({ freePlace: { $gt: 0 }})
+  .populate('leader')
+  .populate('service')
+  .then((groups) => {
+    res.render('group/searchGroups', {groups});
+  })
+  .catch((err) => {
+    next(err);
+  });
 });
 
 module.exports = router;
