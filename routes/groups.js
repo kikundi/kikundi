@@ -142,17 +142,19 @@ router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
     idRole: "Member"
   });
   belong.save()
-  .then(() => {
-    res.redirect("/search-tribes");
+  .then(() => {   
+    res.redirect(`/payments/create/${req.params.userid}/${req.params.groupid}`);    
+    //res.redirect("/search-tribes");
   })
   .catch((err) => {
     next(err);
   });
-  Notification.findByIdAndRemove(req.params.notificationid)
+
+/*   Notification.findByIdAndRemove(req.params.notificationid)
   .then()
   .catch((err) => {
     next(err);
-  });
+  }); */
 
 });
 

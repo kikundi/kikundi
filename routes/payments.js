@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Payment = require("../models/Payment");
+const Group = require("../models/Group");
+const User = require("../models/User");
 const bodyParser   = require('body-parser');
 require('dotenv').config('');
 const stripeSecret = process.env.STRIPE_KEYSECRET;
@@ -17,14 +19,14 @@ router.get('/payments', (req, res, next) => {
 });
 
 //New payment test screen
-router.get('/payments/create', (req, res, next) => {
-  res.render('payments/create');
-});
+// router.get('/payments/create', (req, res, next) => {
+//   res.render('payments/create');
+// });
 
 //New payment
 router.post('/payments/create', (req, res, next) => {
-  let { idUser, idGrupo, groupLeader, quota, status } = req.body;
-  const newPayment = new Payment({ idUser, idGrupo, groupLeader, quota, status })
+  let { idUser, idGrupo, idGroupLeader, quota, status } = req.body;
+  const newPayment = new Payment({ idUser, idGrupo, idGroupLeader, quota, status })
   newPayment.save()
     .then((payments) => {
       res.redirect('/payments');
@@ -34,7 +36,104 @@ router.post('/payments/create', (req, res, next) => {
     })
 });
 
+router.get('/payments/create/:idUser/:groupid', (req, res, next) => {
+  let idUser = req.params.idUser;
+  let idGrupo = req.params.groupid;
+  Group.findById(idGrupo)
+  .then(groupRequest=>{
+    let idGroupLeader = groupRequest.leader;
+    let quota = groupRequest.pricePerson;
+    let status = "Pending";
+    const newPayment = new Payment({ idUser, idGrupo, idGroupLeader, quota, status });
+    newPayment.save()
+      .then((payments) => {
+        res.redirect('/payments');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  })
+  .catch(err=>{console.log(err)})
+ });
+
 //execute payment
+router.get('/payments/execute/:idPayment', (req, res, next) => {
+
+  let idPayment = req.params.idPayment;
+  Payment.findById(idPayment)
+  .then(paymentToExec => {
+    let quota = paymentToExec.quota;
+    let idUser = paymentToExec.idUser;
+    User.findById(idUser).then(userData=>{
+      let cardNumber = userData.cardNumber;
+      let cardMonth = userData.cardMonth;
+      let cardYear = userData.cardYear;
+      stripe.tokens.create({
+        card:{
+          number: cardNumber,
+          exp_month: cardMonth,
+          exp_year: cardYear}
+      }).then(token =>{
+          // console.log('Token!');
+          // console.log(token);
+          stripe.charges.create({
+            amount: quota * 100 ,
+            currency: 'eur',
+            source: token.id ,
+            receipt_email: `${stripeMailRcpt}`
+          }).then(charge => {
+            Payment.findByIdAndUpdate(idPayment , {status: 'Completed', invoice:charge.receipt_url})
+            .then(paymentProcesed=>{res.redirect('/payments')})
+          })                  
+      }) 
+    })
+  }).catch(err => {console.log(err)});
+});
+
+
+  
+
+            
+                  
+
+
+
+// stripe.tokens.create({
+//   card:{
+//     number: cardNumber,
+//     exp_month: cardMonth,
+//     exp_year: cardYear}})
+//   .then(token =>{
+//     console.log('Token!');
+//     console.log(token);
+//     res.redirect('/payments');
+//   })
+
+      // .then(token =>{
+      //   console.log('Token!');
+      //   console.log(token);
+      //   stripe.charges.create({
+      //     amount: req.body.paymentAmount * 100 ,
+      //     currency: 'eur',
+      //     source: token.id ,
+      //     receipt_email: `${stripeMailRcpt}`
+      //   })})
+      // .then(charge => {
+      //     Payment.findByIdAndUpdate(req.body.idPayment , {status: 'Completed', invoice:charge.receipt_url})
+      //     .then((paymentProcesed)=>{res.redirect('/payments');
+      //     });
+      //   })
+
+  //   })
+  // })
+  // .catch(err => {console.log(err)});
+
+
+
+
+
+
+
 router.post('/payments/execute', (req, res, next) => {
   Payment.findById(req.body.idPayment).then( paymentToExec => {
     console.log('Pagado!');
@@ -62,13 +161,6 @@ router.post('/payments/execute', (req, res, next) => {
     err => {console.log()}
   );
 });
-
-/* router.post('/payments/:idpayment/execute', (req, res, next) => {
-  Payment.findByIdAndUpdate(req.body.idPayment , {status: 'Completed'})
-  .then((paymentProcesed)=>{
-    res.redirect('/payments');
-  })
-}); */
 
 //reject payment
 router.post('/payments/reject', (req, res, next) => {
