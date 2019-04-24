@@ -1,39 +1,159 @@
 const express = require("express");
 const router = express.Router();
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const User = require("../models/User");
 const Group = require("../models/Group");
+const Service = require("../models/Service");
+const Belong = require("../models/Belong");
+const Role = require("../models/Role");
+const Notification = require("../models/Notification");
 
 
-router.get('/tribe', (req, res, next) => {
-  res.render('group/group');
-});
-
-router.get('/create-new-tribe', (req, res, next) => {
-  res.render('group/newGroup');
+//create new tribe
+router.get('/create-new-tribe', ensureLoggedIn('auth/login'), (req, res, next) => {
+  Service.find()
+  .then((services) => {
+    res.render('group/newGroup', {services});
+  })
+  .catch((err) => {
+    next(err);
+  });
 });
 
 router.post('/create-new-tribe', (req,res,next) => {
   let name = req.body.name;
-  let services = req.body.services;
+  let service = req.body.services;
   let members = req.body.members;
-  let price = req.body.price;
+  let freePlace = members; 
+  let pricePerson = req.body.pricePerson;
   let description = req.body.description;
 
   let group = new Group({
      name,
      leader: req.user.id,
-     services,
+     service,
      members,
-     price,
+     freePlace,
+     pricePerson,
      description
-  })
+  });
   group.save()
-  .populate('leader')
-  .then(res.redirect('/'));
+  .then((grupo) => {
+    let belong = new Belong({
+      idUser: req.user.id,
+      idGrupo: grupo._id,
+      idRole: "Admin"
+    });
+    belong.save()
+    .then()
+    .catch((err) => {
+    next(err);
+    });
+    
+    res.redirect('/');
+  })
+  .catch((err) => {
+    next(err);
+  });
  });
 
-router.get('/search-tribes', (req, res, next) => {
-  res.render('group/searchGroups');
+
+//search tribes 
+router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
+  Group.find({ freePlace: { $gt: 0 }})
+  .populate('leader')
+  .populate('service')
+  .then((groups) => {
+    res.render('group/searchGroups', {groups});
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+//roles
+function checkMembership() {
+	return (req, res, next) => {
+    return Belong.find({idGrupo: {$eq: req.params.groupid}})
+    .then((belong) => {
+      const result = belong.filter(user => {
+        return user.idUser === req.user.id;
+      });
+     if(result.length === 0){
+       req.role = "none";
+     }else {
+       req.role = result[0].idRole;
+     }
+     return next();
+    }); 
+	};
+}
+
+//tribe page 
+router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), (req, res, next) => {
+  Group.findById(req.params.groupid)
+  .populate('leader')
+  .populate('service')
+  .then((group) => {
+    Notification.find({idGroup: {$eq: group._id}})
+    .populate('idUserFrom')
+    .populate('idGroup')
+    .then((notifications) => {
+      res.render('group/group', {notifications, group, user:req.role});
+    });
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+//send request for entry in a tribe
+router.post('/sendRequest/:groupid', (req, res, next) => {
+  Group.findById(req.params.groupid)
+  .then((group) => {
+    let status = "Request";
+    let notification = new Notification({
+      idUserFrom: req.user.id,
+      idUserTo: group.leader,
+      idGroup: group._id,
+      status: status
+    });
+    notification.save()
+    .then(() => {
+      res.redirect("/search-tribes");
+    })
+    .catch((err) => {
+      next(err);
+    });
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+//add member 
+router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
+  console.log(req.params.userid);
+  console.log(req.params.groupid);
+  console.log(req.params.notificationid);
+  let belong = new Belong({
+    idUser: req.params.userid,
+    idGrupo: req.params.groupid,
+    idRole: "Member"
+  });
+  belong.save()
+  .then(() => {
+    res.redirect("/search-tribes");
+  })
+  .catch((err) => {
+    next(err);
+  });
+  Notification.findByIdAndRemove(req.params.notificationid)
+  .then()
+  .catch((err) => {
+    next(err);
+  });
+
 });
 
 module.exports = router;

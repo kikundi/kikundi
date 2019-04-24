@@ -4,7 +4,7 @@ require("../passport/FacebookStrategy.js");
 const router = express.Router();
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
-
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
@@ -13,7 +13,7 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/tribe",
+  successRedirect: "/",
   failureRedirect: "/auth/login",
   failureFlash: true,
   passReqToCallback: true
@@ -33,7 +33,7 @@ router.post("/signup", (req, res, next) => {
   const cardMonth = req.body.cardMonth;
   const cardYear = req.body.cardYear;
   const status = req.body.status;
-
+  
   if (username === "" || password === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
     return;
@@ -105,6 +105,7 @@ router.get("/auth/confirm/:confirmCode", (req, res) => {
       let idConfirmed = status._id;
   User.findByIdAndUpdate(idConfirmed, { status: "Active" })
     .then(() => {
+
       res.render("auth/login", { message: "Profile verified." });
       })
     })
@@ -123,8 +124,18 @@ router.get('/facebook/callback',
   });
 
 router.get("/logout", (req, res) => {
+      /*res.redirect("/");
+    })
+    .catch(err => {
+      res.render("auth/signup", { message: "Something went wrong" });
+    });
+  });
+});
+
+router.get("/logout", ensureLoggedIn('/auth/login'), (req, res) => {*/
+
   req.logout();
-  res.redirect("/");
+  res.redirect("/auth/login");
 });
 
 module.exports = router;

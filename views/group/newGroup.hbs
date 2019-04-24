@@ -8,21 +8,23 @@
 
   <label for="services">Services</label>
    <select name="services">
-    <option value="volvo">Netflix</option>
-    <option value="saab">Spotify</option>
-    <option value="fiat">Movistar</option>
-    <option value="audi">HBO</option>
+
+    {{#each services}} 
+      <option value="{{this._id}}">{{this.name}}</option>
+    {{/each}} 
   </select>
   
   <br><br>
 
-  <label for="members">Members</label>
+  <label for="members">How many people are you searching:</label>
   <input id="members" type="text" name="members" placeholder="Number of members">
   
   <br><br>
 
   <label for="price">Price by person</label>
-  <input id="price" type="number" name="price" placeholder="Price by person">
+
+  <input id="price" type="text" name="pricePerson" placeholder="Price by person">
+
 
   <br><br>
 

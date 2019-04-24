@@ -6,6 +6,7 @@ const groupSchema = new Schema({
   leader: {type: Schema.Types.ObjectId, ref:'User'},
   service: {type: Schema.Types.ObjectId, ref:'Service'},
   members: Number,
+  freePlace: Number,
   pricePerson: Number,
   description: String
 }, {
