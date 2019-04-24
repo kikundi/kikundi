@@ -1,1 +1,24 @@
 <h2>Tribe page</h2>
+<p>Name: {{group.name}}</p>
+<p>Admin: {{group.leader.username}}</p>
+<p>Service: {{group.service.name}}</p>
+<p>Free Place: {{group.freePlace}}</p>
+<p>Price Person: {{group.pricePerson}}€</p>
+<p>Description: {{group.description}}</p>
+
+
+{{#is user 'none'}}
+<form action="/sendRequest/{{group.id}}" method="post">
+  <button type="submit">Send Request</button>
+</form>
+{{/is}}
+
+{{#is user 'Admin'}}
+  <h2>Requests:</h2>
+  {{#each notifications}}
+    <p>From: {{idUserFrom.username}}</p>
+    <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}" method="post">
+      <button type="submit">Add to group</button>
+    </form>
+  {{/each}}
+{{/is}}
