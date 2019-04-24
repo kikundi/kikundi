@@ -4,7 +4,7 @@ const Schema   = mongoose.Schema;
 const belongSchema = new Schema({
   idUser: String,
   idGrupo: String,	
-  idRole: String
+  idRole: {type: String, enum: ['Admin', 'Member']}
 }, {
   timestamps: {
     createdAt: 'created_at',
