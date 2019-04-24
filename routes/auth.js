@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require('passport');
 const router = express.Router();
 const User = require("../models/User");
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 
 // Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
@@ -12,7 +13,7 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/tribe",
+  successRedirect: "/",
   failureRedirect: "/auth/login",
   failureFlash: true,
   passReqToCallback: true
@@ -25,6 +26,13 @@ router.get("/signup", (req, res, next) => {
 router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  const email = req.body.email;
+  const phone = req.body.phone;
+  const cardNumber = req.body.cardNumber;
+  const cardName = req.body.cardName;
+  const cardMonth = req.body.cardMonth;
+  const cardYear = req.body.cardYear;
+
   if (username === "" || password === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
     return;
@@ -41,7 +49,13 @@ router.post("/signup", (req, res, next) => {
 
     const newUser = new User({
       username,
-      password: hashPass
+      password: hashPass,
+      email,
+      phone, 
+      cardNumber,
+      cardName,
+      cardMonth,
+      cardYear
     });
 
     newUser.save()
@@ -50,13 +64,13 @@ router.post("/signup", (req, res, next) => {
     })
     .catch(err => {
       res.render("auth/signup", { message: "Something went wrong" });
-    })
+    });
   });
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", ensureLoggedIn('/auth/login'), (req, res) => {
   req.logout();
-  res.redirect("/");
+  res.redirect("/auth/login");
 });
 
 module.exports = router;

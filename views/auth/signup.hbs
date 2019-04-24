@@ -8,6 +8,62 @@
 
   <label for="password">Password</label>
   <input id="password" type="password" name="password" placeholder="Your password">
+
+  <br><br>
+  
+  <label for="email">Email</label>
+  <input id="email" type="email" name="email" placeholder="Your email">
+  
+  <br><br>
+  
+  <label for="phone">Phone number</label>
+  <input id="phone" type="text" name="phone" placeholder="Your phone number">
+  
+  <br><br>
+  
+  <label for="cardNumber">Credit card number</label>
+  <input id="cardNumber" type="text" name="cardNumber" placeholder="Your credit card number">
+  
+  <br><br>
+
+  <label for="cardName">Credit card owner</label>
+  <input id="cardName" type="text" name="cardName" placeholder="Credit card owner">
+
+  <br><br>
+
+  <label for="cardMonth">Expiration month</label>
+  <select name="cardMonth" id="cardMonth">
+    <option value="01" selected>01</option> 
+    <option value="02">02</option>
+    <option value="03">03</option>
+    <option value="04">04</option>
+    <option value="05">05</option>
+    <option value="06">06</option>
+    <option value="07">07</option>
+    <option value="08">08</option>
+    <option value="09">09</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select>
+
+    <br><br>
+
+  <label for="cardYear">Expiration Year</label>
+  <select name="cardYear" id="cardYear">
+    <option value="2019" selected>2019</option> 
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+    <option value="2028">2028</option>
+    <option value="2029">2029</option>
+  </select>
+
   <br>
   {{#if message }}
     <div class="error-message">{{ message }}</div>

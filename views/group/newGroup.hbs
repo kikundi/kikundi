@@ -1,1 +1,35 @@
 <h2>Create new tribe</h2>
+
+<form action="/create-new-tribe" method="POST" id="form-container">
+  <label for="name">Name</label>
+  <input id="name" type="text" name="name" placeholder="Name group">
+
+  <br><br>
+
+  <label for="services">Services</label>
+   <select name="services">
+    {{#each services}} 
+      <option value="{{this._id}}">{{this.name}}</option>
+    {{/each}} 
+  </select>
+  
+  <br><br>
+
+  <label for="members">How many people are you searching:</label>
+  <input id="members" type="text" name="members" placeholder="Number of members">
+  
+  <br><br>
+
+  <label for="price">Price by person</label>
+  <input id="price" type="text" name="pricePerson" placeholder="Price by person">
+
+  <br><br>
+
+  <label for="description">Description</label>
+  <input id="description" type="text" name="description" placeholder="Description group">
+  <br>
+  {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <br><br>
+  <button>Create</button>
