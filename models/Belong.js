@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 const belongSchema = new Schema({
-  idUser: String,
+  idUser: {type: Schema.Types.ObjectId, ref:'User'},
   idGrupo: String,	
   idRole: {type: String, enum: ['Admin', 'Member']}
 }, {

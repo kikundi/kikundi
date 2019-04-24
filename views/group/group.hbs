@@ -7,18 +7,44 @@
 <p>Description: {{group.description}}</p>
 
 
+
 {{#is user 'none'}}
-<form action="/sendRequest/{{group.id}}" method="post">
-  <button type="submit">Send Request</button>
-</form>
+  <form action="/sendRequest/{{group.id}}" method="post">
+    <button type="submit">Send Request</button>
+  </form>
+{{/is}}
+
+{{#is user 'Member'}}
+<h2>Member:</h2>
+  {{#each belong}}
+    <p>Name: {{idUser.username}}</p>
+  {{/each}}
 {{/is}}
 
 {{#is user 'Admin'}}
+  <h2>Member:</h2>
+  {{#each belong}}
+    <p>Name: {{idUser.username}}</p>
+    <form action="/removeMember/{{this.id}}/{{this.idGrupo}}" method="post">
+      <button type="submit">Remove Member</button>
+    </form>
+  {{/each}}
+
   <h2>Requests:</h2>
   {{#each notifications}}
     <p>From: {{idUserFrom.username}}</p>
     <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}" method="post">
       <button type="submit">Add to group</button>
     </form>
+    <form action="/declineMember/{{this.id}}" method="post">
+      <button type="submit">Decline request</button>
+    </form>
   {{/each}}
+
+  <br><br>
+
+  <form action="/deleteGroup/{{group.id}}" method="post">
+    <button type="submit">Delete group</button>
+  </form>
+
 {{/is}}

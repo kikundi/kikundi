@@ -75,9 +75,10 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
 function checkMembership() {
 	return (req, res, next) => {
     return Belong.find({idGrupo: {$eq: req.params.groupid}})
+    .populate('idUser')
     .then((belong) => {
       const result = belong.filter(user => {
-        return user.idUser === req.user.id;
+        return user.idUser.id === req.user.id;
       });
      if(result.length === 0){
        req.role = "none";
@@ -95,11 +96,18 @@ router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), 
   .populate('leader')
   .populate('service')
   .then((group) => {
-    Notification.find({idGroup: {$eq: group._id}})
-    .populate('idUserFrom')
-    .populate('idGroup')
-    .then((notifications) => {
-      res.render('group/group', {notifications, group, user:req.role});
+    Belong.find({$and:[{idGrupo: group._id},{idRole:'Member'}]})
+    .populate('idUser')
+    .then(belong => {
+      Notification.find({idGroup: {$eq: group._id}})
+      .populate('idUserFrom')
+      .populate('idGroup')
+      .then((notifications) => {
+        res.render('group/group', {notifications, group, user:req.role, belong});
+      });
+    })
+    .catch((err) => {
+      next(err);
     });
   })
   .catch((err) => {
@@ -133,9 +141,6 @@ router.post('/sendRequest/:groupid', (req, res, next) => {
 
 //add member 
 router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
-  console.log(req.params.userid);
-  console.log(req.params.groupid);
-  console.log(req.params.notificationid);
   let belong = new Belong({
     idUser: req.params.userid,
     idGrupo: req.params.groupid,
@@ -143,7 +148,13 @@ router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
   });
   belong.save()
   .then(() => {
-    res.redirect("/search-tribes");
+    Group.findByIdAndUpdate(req.params.groupid, {$inc: {freePlace:-1}}, {new:true})
+    .then(() => {
+        res.redirect("/search-tribes");
+    })
+    .catch((err) => {
+      next(err);
+    });
   })
   .catch((err) => {
     next(err);
@@ -153,7 +164,50 @@ router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
   .catch((err) => {
     next(err);
   });
+});
 
+//decline request
+router.post('/declineMember/:notificationid', (req, res, next) => {
+  Notification.findByIdAndRemove(req.params.notificationid)
+  .then(() => {
+    res.redirect("/search-tribes");
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+//remove a member
+router.post('/removeMember/:belongid/:grupoid', (req, res, next) => {
+  Belong.findByIdAndRemove(req.params.belongid)
+  .then(() => {
+    Group.findByIdAndUpdate(req.params.grupoid, {$inc: {freePlace:+1}}, {new:true})
+    .then(() => {
+        res.redirect("/search-tribes");
+    })
+    .catch((err) => {
+      next(err);
+    });
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+//delete group
+router.post('/deleteGroup/:groupid', (req, res, next) => {
+  Group.findByIdAndRemove(req.params.groupid)
+  .then(() => {
+    res.redirect("/search-tribes");
+  })
+  .catch((err) => {
+    next(err);
+  });
+  Belong.deleteMany({idGrupo:{$eq:req.params.groupid}})
+  .then()
+  .catch((err) => {
+    next(err);
+  });
 });
 
 module.exports = router;
