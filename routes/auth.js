@@ -1,8 +1,9 @@
 const express = require("express");
 const passport = require("passport");
+require("../passport/FacebookStrategy.js");
 const router = express.Router();
 const User = require("../models/User");
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
 
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
@@ -95,7 +96,6 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-
 router.get("/auth/confirm/:confirmCode", (req, res) => {
 
   let confirmToken = req.params.confirmCode;
@@ -112,6 +112,15 @@ router.get("/auth/confirm/:confirmCode", (req, res) => {
       res.redirect("/")
     });
 });
+
+router.get('/facebook',
+  passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/index');
+  });
 
 router.get("/logout", (req, res) => {
   req.logout();
