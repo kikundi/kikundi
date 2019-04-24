@@ -10,7 +10,8 @@ const userSchema = new Schema({
   cardNumber: String,
   cardName: String,
   cardMonth: Number,
-  cardYear: Number 
+  cardYear: Number,
+  status: {type: String, enum:["Pending confirmation", "Active"], default:"Pending confirmation"}
 }, {
   timestamps: {
     createdAt: 'created_at',

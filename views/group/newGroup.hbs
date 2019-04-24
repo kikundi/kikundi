@@ -8,6 +8,7 @@
 
   <label for="services">Services</label>
    <select name="services">
+
     {{#each services}} 
       <option value="{{this._id}}">{{this.name}}</option>
     {{/each}} 
@@ -21,7 +22,9 @@
   <br><br>
 
   <label for="price">Price by person</label>
+
   <input id="price" type="text" name="pricePerson" placeholder="Price by person">
+
 
   <br><br>
 

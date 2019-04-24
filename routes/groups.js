@@ -8,6 +8,7 @@ const Belong = require("../models/Belong");
 const Role = require("../models/Role");
 const Notification = require("../models/Notification");
 
+
 //create new tribe
 router.get('/create-new-tribe', ensureLoggedIn('auth/login'), (req, res, next) => {
   Service.find()
@@ -152,6 +153,7 @@ router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
   .catch((err) => {
     next(err);
   });
+
 });
 
 module.exports = router;
