@@ -90,5 +90,7 @@ app.use('/', profileRoutes);
 const groupRoutes = require('./routes/groups');
 app.use('/', groupRoutes);
       
+const paymentsRoutes = require('./routes/payments');
+app.use('/', paymentsRoutes);
 
 module.exports = app;
