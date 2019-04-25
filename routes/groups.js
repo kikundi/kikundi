@@ -5,7 +5,6 @@ const User = require("../models/User");
 const Group = require("../models/Group");
 const Service = require("../models/Service");
 const Belong = require("../models/Belong");
-const Role = require("../models/Role");
 const Notification = require("../models/Notification");
 
 
@@ -26,6 +25,7 @@ router.post('/create-new-tribe', (req,res,next) => {
   let members = req.body.members;
   let freePlace = members; 
   let pricePerson = req.body.pricePerson;
+  let paymentDay = req.body.paymentDay;
   let description = req.body.description;
 
   let group = new Group({
@@ -35,6 +35,7 @@ router.post('/create-new-tribe', (req,res,next) => {
      members,
      freePlace,
      pricePerson,
+     paymentDay,
      description
   });
   group.save()
@@ -73,7 +74,7 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
 
 //roles
 function checkMembership() {
-	return (req, res, next) => {
+	return (req, res, next) => { 
     return Belong.find({idGrupo: {$eq: req.params.groupid}})
     .populate('idUser')
     .then((belong) => {
@@ -99,6 +100,7 @@ router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), 
     Belong.find({$and:[{idGrupo: group._id},{idRole:'Member'}]})
     .populate('idUser')
     .then(belong => {
+      console.log(belong);
       Notification.find({idGroup: {$eq: group._id}})
       .populate('idUserFrom')
       .populate('idGroup')

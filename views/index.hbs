@@ -1,2 +1,25 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h2>My Tribe</h2>
+
+<h3>Admin:</h3>
+{{#each belong}} 
+  {{#is idRole 'Admin'}}
+    <p>Name: {{idGrupo.name}}</p>
+    <p>Day of payment: {{idGrupo.paymentDay}}</p>
+    <form action="/group/{{idGrupo._id}}" method="post">
+      <button type="submit">Group information</button> 
+    </form>
+  {{/is}}
+{{/each}}
+
+<h3>Member:</h3>
+{{#each belong}}
+  {{#is idRole 'Member'}}
+    <p>Name: {{idGrupo.name}}</p>
+    <p>Day of payment: {{idGrupo.paymentDay}}</p>
+    <form action="/group/{{idGrupo._id}}" method="post">
+      <button type="submit">Group information</button> 
+    </form>
+  {{/is}}
+{{/each}}  
+
+
