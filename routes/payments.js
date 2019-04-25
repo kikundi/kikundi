@@ -24,18 +24,20 @@ router.get('/payments', (req, res, next) => {
 // });
 
 //New payment
+//Only for tests purposes
 router.post('/payments/create', (req, res, next) => {
   let { idUser, idGrupo, idGroupLeader, quota, status } = req.body;
   const newPayment = new Payment({ idUser, idGrupo, idGroupLeader, quota, status })
   newPayment.save()
     .then((payments) => {
-      res.redirect('/payments');
+      res.redirect("/search-tribes");
     })
     .catch((error) => {
       console.log(error);
     })
 });
 
+//New payment called from  '/addMember/:userid/:groupid/:notificationid'
 router.get('/payments/create/:idUser/:groupid', (req, res, next) => {
   let idUser = req.params.idUser;
   let idGrupo = req.params.groupid;
@@ -47,7 +49,7 @@ router.get('/payments/create/:idUser/:groupid', (req, res, next) => {
     const newPayment = new Payment({ idUser, idGrupo, idGroupLeader, quota, status });
     newPayment.save()
       .then((payments) => {
-        res.redirect('/payments');
+        res.redirect("/search-tribes");
       })
       .catch((error) => {
         console.log(error);
@@ -83,7 +85,7 @@ router.get('/payments/execute/:idPayment', (req, res, next) => {
             receipt_email: `${stripeMailRcpt}`
           }).then(charge => {
             Payment.findByIdAndUpdate(idPayment , {status: 'Completed', invoice:charge.receipt_url})
-            .then(paymentProcesed=>{res.redirect('/payments')})
+            .then(paymentProcesed=>{res.redirect(charge.receipt_url)})
           })                  
       }) 
     })

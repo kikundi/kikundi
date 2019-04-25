@@ -5,6 +5,7 @@ const User = require("../models/User");
 const Group = require("../models/Group");
 const Service = require("../models/Service");
 const Belong = require("../models/Belong");
+const Payment = require("../models/Payment");
 const Role = require("../models/Role");
 const Notification = require("../models/Notification");
 
@@ -103,7 +104,51 @@ router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), 
       .populate('idUserFrom')
       .populate('idGroup')
       .then((notifications) => {
-        res.render('group/group', {notifications, group, user:req.role, belong});
+        Payment.find({idGroup: {$eq: group._id}})
+        .populate('idUser')
+        .populate('idGroupLeader')
+        .populate('idGrupo')
+        .then(payments => {
+          console.log(payments);
+          res.render('group/group', {notifications, group, user:req.role, belong, payments})
+        })
+        
+      });
+    })
+    .catch((err) => {
+      next(err);
+    });
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+//Only for testing
+router.get('/group/:groupid', (req, res, next) => {
+  Group.findById(req.params.groupid)
+  .populate('leader')
+  .populate('service')
+  .then((group) => {
+    Belong.find({$and:[{idGrupo: group._id},{idRole:'Member'}]})
+    .populate('idUser')
+    .then(belong => {
+      console.log("belong");
+      console.log(belong);
+      Notification.find({idGroup: {$eq: group._id}})
+      .populate('idUserFrom')
+      .populate('idGroup')
+      .then((notifications) => {
+        Payment.find({idGrupo: {$eq: group._id}})
+        .populate('idUser')
+        .populate('idGroupLeader')
+        .populate('idGrupo')
+        .then(payments => {
+          console.log("Payments");
+          console.log(payments);
+          res.render('group/group', {notifications, group, user:req.role, belong, payments})
+        })
+        
       });
     })
     .catch((err) => {
@@ -149,10 +194,11 @@ router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
   belong.save()
   .then(() => {
     Group.findByIdAndUpdate(req.params.groupid, {$inc: {freePlace:-1}}, {new:true})
-    .then(() => {
-        res.redirect(`/payments/create/${req.params.userid}/${req.params.groupid}`);   
+    .then(() => {   
         Notification.findByIdAndRemove(req.params.notificationid)
-        .then(res.redirect("/search-tribes"))
+        .then(
+          res.redirect(`/payments/create/${req.params.userid}/${req.params.groupid}`)          
+          )
         .catch((err) => {
           next(err);
         });

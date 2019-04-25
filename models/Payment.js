@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 const paymentSchema = new Schema({
-  idUser: String,
-  idGrupo: String,	
-  idGroupLeader: String,
+  idUser: {type: Schema.Types.ObjectId, ref:'User'},
+  idGrupo: {type: Schema.Types.ObjectId, ref:'Group'},	
+  idGroupLeader: {type: Schema.Types.ObjectId, ref:'User'},
   quota: Number,
   status: String,
   limitDay: Date,

@@ -6,7 +6,21 @@
 <p>Price Person: {{group.pricePerson}}€</p>
 <p>Description: {{group.description}}</p>
 
-
+<h2>Belong:</h2>
+{{#each belong}}
+  <p>{{idUser.username}}</p>
+  <p>{{idUser._id}}</p>
+  <p>{{idRole}}</p>
+{{/each}}
+<h2>Payments:</h2>
+{{#each payments}}
+    <p>{{idUser._id}}</p>
+    <p>{{status}}</p>
+    <p>{{quota}}</p>
+    {{#is status 'Pending'}}
+      <a href="/payments/execute/{{_id}}">Execute</a>
+    {{/is}}
+{{/each}}  
 
 {{#is user 'none'}}
   <form action="/sendRequest/{{group.id}}" method="post">

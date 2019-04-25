@@ -23,42 +23,17 @@ mongoose
   });
 
 let payments = [
-  {
-    idUser: 'iduser01',
-    idGrupo: 'idgroup01',	
-    groupLeader: 'iduser02',
-    quota: 10,
-    status: 'Pending',
-    limitDay : new Date("2019-05-10").toISOString(),
-    invoice: ""
-  },
-  {
-    idUser: 'iduser03',
-    idGrupo: 'idgroup02',	
-    groupLeader: 'iduser04',
-    quota: 15,
-    status: 'Pending',
-    limitDay : new Date("2019-05-02"),
-    invoice: ""
-  },
-  {
-    idUser: 'iduser04',
-    idGrupo: 'idgroup01',	
-    groupLeader: 'iduser02',
-    quota: 10,
-    status: 'Pending',
-    limitDay : new Date("2019-05-03").toISOString(),
-    invoice: ""
-  },  
-  {
-    idUser: 'iduser05',
-    idGrupo: 'idgroup01',	
-    groupLeader: 'iduser02',
-    quota: 10,
-    status: 'Pending',
-    limitDay : new Date("2019-05-04").toISOString(),
-    invoice: ""
-  }
+  {"idUser":"5cc0adb4ab59ad54e9c094ef","idGrupo":"5cc0a02dc08468446ecdc17d","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":5,"status":"Completed","invoice":"https://pay.stripe.com/receipts/acct_1ES5V9FDLEiRtyVz/ch_1ESrzLFDLEiRtyVzcsouA9od/rcpt_EwlWTcQuHArZe6s4g8PJjgHxbOoiN5c",limitDay : new Date("2019-05-09").toISOString()},
+  {"idUser":"5cc0adb4ab59ad54e9c094ef","idGrupo":"5cc0a02dc08468446ecdc17d","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":5,"status":"Pending",limitDay : new Date("2019-05-10").toISOString()},
+  {"idUser":"5cc0adb4ab59ad54e9c094ef","idGrupo":"5cc0a02dc08468446ecdc17d","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":5,"status":"Pending",limitDay : new Date("2019-05-15").toISOString()},
+  {"idUser":"5cc0adb4ab59ad54e9c094ef","idGrupo":"5cc0a02dc08468446ecdc17d","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":5,"status":"Pending",limitDay : new Date("2019-05-16").toISOString()},
+  {"idUser":"5cc0a07ac08468446ecdc17f","idGrupo":"5cc185ce3c6aa541212cb9e1","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":5,"status":"Pending",limitDay : new Date("2019-05-17").toISOString()},
+  {"idUser":"5cc0a07ac08468446ecdc17f","idGrupo":"5cc185ce3c6aa541212cb9e1","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":5,"status":"Pending",limitDay : new Date("2019-05-18").toISOString()},
+  {"idUser":"5cc0adb4ab59ad54e9c094ef","idGrupo":"5cc18708ee3e67457701de58","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":6,"status":"Pending",limitDay : new Date("2019-05-19").toISOString()},
+  {"idUser":"5cc0adb4ab59ad54e9c094ef","idGrupo":"5cc18708ee3e67457701de58","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":6,"status":"Pending",limitDay : new Date("2019-05-20").toISOString()},
+  {"idUser":"5cc0a07ac08468446ecdc17f","idGrupo":"5cc18708ee3e67457701de58","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":6,"status":"Pending",limitDay : new Date("2019-05-21").toISOString()},
+  {"idUser":"5cc188ebe44a5b46bb632c3b","idGrupo":"5cc18708ee3e67457701de58","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":6,"status":"Pending",limitDay : new Date("2019-05-22").toISOString()},
+  {"idUser":"5cc188ebe44a5b46bb632c3b","idGrupo":"5cc18708ee3e67457701de58","idGroupLeader":"5cc09c02c2c59b40a14b6d2c","quota":6,"status":"Pending",limitDay : new Date("2019-05-23").toISOString()}
 ]
 
 Payment.deleteMany()
