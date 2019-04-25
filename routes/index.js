@@ -8,8 +8,10 @@ const Belong = require("../models/Belong");
 router.get('/', ensureLoggedIn('auth/login'), (req, res, next) => {
   Belong.find({idUser: req.user.id})
   .populate('idGrupo')
+  .populate('idUser')
   .then((belong) => {
-    res.render('index', {belong});
+    console.log(req.username)
+    res.render('index', {belong, username:req.user.username} );
   });
   
 });

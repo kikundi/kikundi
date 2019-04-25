@@ -67,7 +67,7 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
   .populate('leader')
   .populate('service')
   .then((groups) => {
-    res.render('group/searchGroups', {groups});
+    res.render('group/searchGroups', {groups, username:req.user.username});
   })
   .catch((err) => {
     next(err);
@@ -77,9 +77,11 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
 //roles
 function checkMembership() {
 	return (req, res, next) => { 
+    console.log({idGrupo: {$eq: req.params.groupid}});
     return Belong.find({idGrupo: {$eq: req.params.groupid}})
     .populate('idUser')
     .then((belong) => {
+      console.log(belong);
       const result = belong.filter(user => {
         return user.idUser.id === req.user.id;
       });
@@ -95,25 +97,33 @@ function checkMembership() {
 
 //tribe page 
 router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), (req, res, next) => {
+  console.log(`Buscamos ${req.params.groupid}`)
   Group.findById(req.params.groupid)
   .populate('leader')
   .populate('service')
   .then((group) => {
-    Belong.find({$and:[{idGrupo: group._id},{idRole:'Member'}]})
+    // console.log("group");
+    // console.log(group);
+    // console.log(group._id);
+    Belong.find({ $and: [ {idGrupo: {$eq: group._id }},{idRole:{$eq: 'Member' }}]})
     .populate('idUser')
     .then(belong => {
-      console.log(belong);
+      // console.log("belong");
+      // console.log(belong);
       Notification.find({idGroup: {$eq: group._id}})
       .populate('idUserFrom')
       .populate('idGroup')
       .then((notifications) => {
-        Payment.find({idGroup: {$eq: group._id}})
+        Payment.find({idGrupo: {$eq: group._id}})
         .populate('idUser')
         .populate('idGroupLeader')
         .populate('idGrupo')
         .then(payments => {
+          console.log('ROL');
+          console.log(req.role);
+          console.log('payments');
           console.log(payments);
-          res.render('group/group', {notifications, group, user:req.role, belong, payments})
+          res.render('group/group', {notifications, group, username:req.user.username, user:req.role, belong, payments})
         })
         
       });

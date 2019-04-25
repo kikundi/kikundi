@@ -1,3 +1,4 @@
+<h3>You are {{username}}</h3>
 <h2>Tribe page</h2>
 <p>Name: {{group.name}}</p>
 <p>Admin: {{group.leader.username}}</p>
@@ -6,21 +7,8 @@
 <p>Price Person: {{group.pricePerson}}€</p>
 <p>Description: {{group.description}}</p>
 
-<h2>Belong:</h2>
-{{#each belong}}
-  <p>{{idUser.username}}</p>
-  <p>{{idUser._id}}</p>
-  <p>{{idRole}}</p>
-{{/each}}
-<h2>Payments:</h2>
-{{#each payments}}
-    <p>{{idUser._id}}</p>
-    <p>{{status}}</p>
-    <p>{{quota}}</p>
-    {{#is status 'Pending'}}
-      <a href="/payments/execute/{{_id}}">Execute</a>
-    {{/is}}
-{{/each}}  
+
+
 
 {{#is user 'none'}}
   <div id="request-{{group.id}}">
@@ -29,27 +17,36 @@
 {{/is}}
 
 {{#is user 'Member'}}
+{{!--   {{#each belong}}
+  <p>Name: {{idUser.username}}</p>
+{{/each}} --}}
 
-  <h2 id="members-headline">Members:</h2>
-
-
-  {{#each belong}}
-    <p>Name: {{idUser.username}}</p>
-  {{/each}}
-
+  <h2>Payments:</h2>
+  {{#each payments}}
+      <p>{{idUser._id}}</p>
+      <p>{{status}}</p>
+      <p>{{quota}}</p>
+      {{#is status 'Pending'}}
+        <a href="/payments/execute/{{_id}}">Execute</a>
+      {{/is}}
+  {{/each}}  
 {{/is}}
 
-{{#is user 'Admin'}}
-  
+{{#is user 'Admin'}}  
   <h2 id="members-headline">Members:</h2>
   
   {{#each belong}}
     <div id="member-{{this.id}}/{{idGrupo._id}}">
       <p>Name: {{idUser.username}}</p>
       <button onclick="removeMember(`/removeMember/{{this.id}}/{{idGrupo._id}}`, `{{this.id}}/{{idGrupo._id}}`)" type="button" data-address=>Remove Member</button>
-    </div>
+    </div>  
   {{/each}}
-
+    <h2>Payments:</h2>
+  {{#each payments}}
+      <p>Name: {{idUser.username}}</p>
+      <p>Status: {{status}}</p>
+      <p>Quota: {{quota}} €</p>
+  {{/each}} 
 
 
   <h2 id="request-headline">Requests:</h2>
