@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const Service = require("../models/Service");
 const Role = require("../models/Role");
+const Belong = require("../models/Belong");
 
 const bcryptSalt = 10;
 
@@ -85,25 +86,32 @@ mongoose
 //   throw err
 // })
 
-let roles = [
+let belongs = [
   {
-    name: "Admin",
-    picture: "img1"
+  idUser: '5cbf23ba1612325412183f5c',
+  idGrupo: '5cc183c4e339440dbf0dd9f2',	
+  idRole: 'Member'
   },
   {
-    name: "Member",
-    picture: "img2"
+  idUser: '5cc07f5f5bbe001b0fbc387c',
+  idGrupo: '5cc183c4e339440dbf0dd9f2',	
+  idRole: 'Member'
   }
 ];
 
-Role.deleteMany()
+// Service.deleteMany()
+// .then(() => {
+//   return 
+// })
+Belong.create(belongs)
 .then(() => {
-  return Role.create(roles)
-})
-.then(() => {
-  mongoose.disconnect()
+  console.log("success")
+  mongoose.disconnect();
 })
 .catch(err => {
+  console.log(err)
   mongoose.disconnect()
   throw err
 })
+
+
