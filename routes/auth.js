@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const passport = require("passport");
 require("../passport/FacebookStrategy.js");
@@ -5,6 +7,9 @@ const router = express.Router();
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+const uploadCloud = require('../config/cloudinary.js');
+const multer = require("multer");
+
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
@@ -23,17 +28,18 @@ router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
 });
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", uploadCloud.single('picture'), (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
+  const picture = req.body.picture;
   const phone = req.body.phone;
   const cardNumber = req.body.cardNumber;
   const cardName = req.body.cardName;
   const cardMonth = req.body.cardMonth;
   const cardYear = req.body.cardYear;
   const status = req.body.status;
-  
+
   if (username === "" || password === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
     return;
@@ -58,6 +64,7 @@ router.post("/signup", (req, res, next) => {
       username,
       password: hashPass,
       email,
+      picture: req.file.url,
       phone,
       cardNumber,
       cardName,
@@ -66,6 +73,7 @@ router.post("/signup", (req, res, next) => {
       status
     });
 
+    console.log(picture)
     newUser.save()
       .then(() => {
         var transporter = nodemailer.createTransport({
@@ -86,28 +94,27 @@ router.post("/signup", (req, res, next) => {
           text: "You'll never pay alone...",
           html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + verificationLink + ">Click here to verify</a>"
         })
-        .then(info => console.log(info))
-        .catch(error => console.log(error));
+          .then(info => console.log(info))
+          .catch(error => console.log(error));
         res.redirect("/");
       })
       .catch(err => {
-        res.render("auth/signup", {message: "Something went wrong" });
+        res.render("auth/signup", { message: "Something went wrong" });
       })
   });
 });
 
-router.get("/auth/confirm/:confirmCode", (req, res) => {
+router.get("/confirm/:confirmCode", (req, res) => {
 
   let confirmToken = req.params.confirmCode;
   let filterParam = { confirmationCode: { $eq: confirmToken } };
-  User.findOne(filterParam).select({ status: 1 })
+  User.findOne(filterParam).select({ status: "Pending confirmation" })
     .then((status) => {
       let idConfirmed = status._id;
-  User.findByIdAndUpdate(idConfirmed, { status: "Active" })
-    .then(() => {
-
-      res.render("auth/login", { message: "Profile verified." });
-      })
+      User.findByIdAndUpdate(idConfirmed, { status: "Active" })
+        .then(() => {
+          res.render("auth/login", { message: "Profile verified." });
+        })
     })
     .catch(error => {
       res.redirect("/")
@@ -119,21 +126,13 @@ router.get('/facebook',
 
 router.get('/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/index');
+  function (req, res) {
+    res.redirect('/');
   });
 
-router.get("/logout", (req, res) => {
-      /*res.redirect("/");
-    })
-    .catch(err => {
-      res.render("auth/signup", { message: "Something went wrong" });
-    });
-  });
-});
 
-router.get("/logout", ensureLoggedIn('/auth/login'), (req, res) => {*/
 
+router.get("/logout", ensureLoggedIn('/auth/login'), (req, res) => {
   req.logout();
   res.redirect("/auth/login");
 });
