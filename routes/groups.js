@@ -183,7 +183,7 @@ router.post('/removeMember/:belongid/:grupoid', (req, res, next) => {
   .then(() => {
     Group.findByIdAndUpdate(req.params.grupoid, {$inc: {freePlace:+1}}, {new:true})
     .then(() => {
-        res.redirect("/search-tribes");
+      res.redirect("/search-tribes");
     })
     .catch((err) => {
       next(err);

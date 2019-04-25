@@ -22,12 +22,19 @@
 {{/is}}
 
 {{#is user 'Admin'}}
-  <h2>Member:</h2>
+  <h2>Members:</h2>
   {{#each belong}}
-    <p>Name: {{idUser.username}}</p>
-    <form action="/removeMember/{{this.id}}/{{this.idGrupo}}" method="post">
-      <button type="submit">Remove Member</button>
-    </form>
+    <div>
+      <p>Name: {{idUser.username}}</p>
+      <form action="/removeMember/{{this.id}}/{{this.idGrupo}}" method="post">
+        <button type="submit">Remove Member</button>
+      </form>
+      {{!-- <div style="display:none">
+        <input type="text" id="belongId" value="{{this.id}}">
+        <input type="text" id="grupoId" value="{{this.idGrupo}}">
+      </div>
+      <button id="removeMember">Remove Member</button> --}}
+    </div>
   {{/each}}
 
   <h2>Requests:</h2>
