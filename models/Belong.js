@@ -3,7 +3,7 @@ const Schema   = mongoose.Schema;
 
 const belongSchema = new Schema({
   idUser: {type: Schema.Types.ObjectId, ref:'User'},
-  idGrupo: String,	
+  idGrupo: {type: Schema.Types.ObjectId, ref:'Group'},	
   idRole: {type: String, enum: ['Admin', 'Member']}
 }, {
   timestamps: {

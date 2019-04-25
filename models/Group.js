@@ -8,6 +8,7 @@ const groupSchema = new Schema({
   members: Number,
   freePlace: Number,
   pricePerson: Number,
+  paymentDay: Number,
   description: String
 }, {
   timestamps: {

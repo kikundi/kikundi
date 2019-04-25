@@ -27,6 +27,7 @@ router.post('/create-new-tribe', (req,res,next) => {
   let members = req.body.members;
   let freePlace = members; 
   let pricePerson = req.body.pricePerson;
+  let paymentDay = req.body.paymentDay;
   let description = req.body.description;
 
   let group = new Group({
@@ -36,6 +37,7 @@ router.post('/create-new-tribe', (req,res,next) => {
      members,
      freePlace,
      pricePerson,
+     paymentDay,
      description
   });
   group.save()
@@ -74,7 +76,7 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
 
 //roles
 function checkMembership() {
-	return (req, res, next) => {
+	return (req, res, next) => { 
     return Belong.find({idGrupo: {$eq: req.params.groupid}})
     .populate('idUser')
     .then((belong) => {
@@ -100,6 +102,7 @@ router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), 
     Belong.find({$and:[{idGrupo: group._id},{idRole:'Member'}]})
     .populate('idUser')
     .then(belong => {
+      console.log(belong);
       Notification.find({idGroup: {$eq: group._id}})
       .populate('idUserFrom')
       .populate('idGroup')
@@ -229,7 +232,7 @@ router.post('/removeMember/:belongid/:grupoid', (req, res, next) => {
   .then(() => {
     Group.findByIdAndUpdate(req.params.grupoid, {$inc: {freePlace:+1}}, {new:true})
     .then(() => {
-      res.redirect("/search-tribes");
+      res.json({removed: true, msg: "user has been removed", timestamp: new Date()});
     })
     .catch((err) => {
       next(err);

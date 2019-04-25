@@ -23,49 +23,108 @@
 {{/each}}  
 
 {{#is user 'none'}}
-  <form action="/sendRequest/{{group.id}}" method="post">
-    <button type="submit">Send Request</button>
-  </form>
+  <div id="request-{{group.id}}">
+    <button onclick="sendRequest(`/sendRequest/{{group.id}}`, `{{group.id}}`)" type="button" data-address=>Send Request</button>
+  </div>
 {{/is}}
 
 {{#is user 'Member'}}
-<h2>Member:</h2>
+
+  <h2 id="members-headline">Members:</h2>
+
+
   {{#each belong}}
     <p>Name: {{idUser.username}}</p>
   {{/each}}
+
 {{/is}}
 
 {{#is user 'Admin'}}
-  <h2>Members:</h2>
+  
+  <h2 id="members-headline">Members:</h2>
+  
   {{#each belong}}
-    <div>
+    <div id="member-{{this.id}}/{{idGrupo._id}}">
       <p>Name: {{idUser.username}}</p>
-      <form action="/removeMember/{{this.id}}/{{this.idGrupo}}" method="post">
-        <button type="submit">Remove Member</button>
-      </form>
-      {{!-- <div style="display:none">
-        <input type="text" id="belongId" value="{{this.id}}">
-        <input type="text" id="grupoId" value="{{this.idGrupo}}">
-      </div>
-      <button id="removeMember">Remove Member</button> --}}
+      <button onclick="removeMember(`/removeMember/{{this.id}}/{{idGrupo._id}}`, `{{this.id}}/{{idGrupo._id}}`)" type="button" data-address=>Remove Member</button>
     </div>
   {{/each}}
 
-  <h2>Requests:</h2>
+
+
+  <h2 id="request-headline">Requests:</h2>
+
   {{#each notifications}}
-    <p>From: {{idUserFrom.username}}</p>
+    <div id="request-{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}"></div>
+      <p>From: {{idUserFrom.username}}
+      <button onclick="addMember(`/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}`, `{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}`)" type="button" data-address=>Add to group</button>
+    </div>
+  
+    {{!-- <p>From: {{idUserFrom.username}}</p>
     <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}" method="post">
       <button type="submit">Add to group</button>
     </form>
     <form action="/declineMember/{{this.id}}" method="post">
       <button type="submit">Decline request</button>
-    </form>
+    </form> --}}
   {{/each}}
 
   <br><br>
+  
+    {{!-- <form action="/comment/{{id}}" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="content">Comment</label>
+        <input type="text" name="content" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="picPath">Comment Photo</label>
+        <input type="file" name="picPath" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="picName">Comment Photo Name</label>
+        <input type="text" name="picName" class="form-control">
+      </div>
+      <button type="submit">Comment</button>
+    </form>
+  
+  
+  
+
+  <br><br> --}}
 
   <form action="/deleteGroup/{{group.id}}" method="post">
     <button type="submit">Delete group</button>
   </form>
 
 {{/is}}
+
+<script>
+
+  function removeMember(postURL, id){
+    axios
+      .post(postURL)
+      .then(removedMemberInfo => {
+        document.getElementById("member-" + id).style.display = "none"
+      })
+  }
+
+  function addMember(postURL, id){
+    axios
+      .post(postURL)
+      .then(addMemberInfo => {
+        document.getElementById("request-" + id).style.display = "none"
+        var prova = "<p>diocane</p>";
+        document.getElementById("request-" + id).appendChild(prova);
+      })
+  }
+
+  function sendRequest(postURL, id){
+    axios
+      .post(postURL)
+      .then(sendRequestInfo => {
+        document.getElementById("request-" + id).innerHTML = "Sended!"
+      })
+  }
+
+
+</script>
