@@ -124,16 +124,6 @@ router.get('/facebook/callback',
   });
 
 router.get("/logout", (req, res) => {
-      /*res.redirect("/");
-    })
-    .catch(err => {
-      res.render("auth/signup", { message: "Something went wrong" });
-    });
-  });
-});
-
-router.get("/logout", ensureLoggedIn('/auth/login'), (req, res) => {*/
-
   req.logout();
   res.redirect("/auth/login");
 });
