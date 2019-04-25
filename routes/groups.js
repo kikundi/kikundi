@@ -130,7 +130,7 @@ router.post('/sendRequest/:groupid', (req, res, next) => {
     });
     notification.save()
     .then(() => {
-      res.redirect("/search-tribes");
+      res.json({removed: true, msg: "Sended!", timestamp: new Date()});
     })
     .catch((err) => {
       next(err);
@@ -185,7 +185,7 @@ router.post('/removeMember/:belongid/:grupoid', (req, res, next) => {
   .then(() => {
     Group.findByIdAndUpdate(req.params.grupoid, {$inc: {freePlace:+1}}, {new:true})
     .then(() => {
-      res.json({removed: true, msg: "user has been removed", timestamp: new Date()});
+      res.redirect("/search-tribes");
     })
     .catch((err) => {
       next(err);
