@@ -1,72 +1,81 @@
-<h2>Create new tribe</h2>
+<div class="containerPage">
 
-<form action="/create-new-tribe" method="POST" id="form-container">
-  <label for="name">Name</label>
-  <input id="name" type="text" name="name" placeholder="Name group">
+  <nav class="nav">  
+      <div class="logoNav">  
+        <a href="/"><img src="/images/kikundi-logo-white.png"></a>
+      </div>
+      <ul class="navList">
+        <li><a href="/search-tribes">Search tribes</a></li>
+        <li><a href="/create-new-tribe">Create new tribe</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      </ul>
+  </nav>
 
-  <br><br>
+  <div class="containerCreateNew">
+    
 
-  <label for="services">Services</label>
-   <select name="services">
+    <form action="/create-new-tribe" method="POST" id="form-container" class="formLogin form">
 
-    {{#each services}} 
-      <option value="{{this._id}}">{{this.name}}</option>
-    {{/each}} 
-  </select>
-  
-  <br><br>
+      <h2>Create new tribe</h2>
 
-  <label for="members">How many people are you searching:</label>
-  <input id="members" type="text" name="members" placeholder="Number of members">
-  
-  <br><br>
+      <div class="inputSign input">
+      
+        <input id="name" type="text" name="name" placeholder="name">
 
-  <label for="price">Price by person</label>
+        <div class="selectSign">
+          <label for="services">service</label>
+          <select name="services">
+            {{#each services}} 
+              <option value="{{this._id}}">{{this.name}}</option>
+            {{/each}} 
+          </select>
+        </div>
 
-  <input id="price" type="text" name="pricePerson" placeholder="Price by person">
+        <input id="members" type="text" name="members" placeholder="number of member">
+        <input id="price" type="text" name="pricePerson" placeholder="price per person">
 
-  <br><br>
+        <div class="selectSign">
+          <label for="paymentDay">payment day</label>
+          <select name="paymentDay" id="paymentDay">
+            <option value="01" selected>01</option> 
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+          </select>
+        </div>
 
-  <label for="paymentDay">Day of payment</label>
-  <select name="paymentDay" id="paymentDay">
-    <option value="01" selected>01</option> 
-    <option value="02">02</option>
-    <option value="03">03</option>
-    <option value="04">04</option>
-    <option value="05">05</option>
-    <option value="06">06</option>
-    <option value="07">07</option>
-    <option value="08">08</option>
-    <option value="09">09</option>
-    <option value="10">10</option>
-    <option value="11">11</option>
-    <option value="12">12</option>
-    <option value="13">13</option>
-    <option value="14">14</option>
-    <option value="15">15</option>
-    <option value="16">16</option>
-    <option value="17">17</option>
-    <option value="18">18</option>
-    <option value="19">19</option>
-    <option value="20">20</option>
-    <option value="21">21</option>
-    <option value="22">22</option>
-    <option value="23">23</option>
-    <option value="24">24</option>
-    <option value="25">25</option>
-    <option value="26">26</option>
-    <option value="27">27</option>
-    <option value="28">28</option>
-  </select>
+        <input id="description" type="text" name="description" placeholder="description">
+      </div>
+      {{!-- {{#if message }}
+        <div class="error-message">{{ message }}</div>
+      {{/if}} --}}
 
-
-  <br><br>
-
-  <label for="description">Description</label>
-  <input id="description" type="text" name="description" placeholder="Description group">
-  <br>
-  {{#if message }}
-    <div class="error-message">{{ message }}</div>
-  {{/if}}
-  <br><br>
-  <button>Create</button>
+      <button class="btn btnLogin">Create</button>
+    </form>  
+  </div>
+</div>

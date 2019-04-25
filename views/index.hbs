@@ -1,25 +1,59 @@
-<h2>My Tribe</h2>
+<div class="containerPage">
 
-<h3>Admin:</h3>
-{{#each belong}} 
-  {{#is idRole 'Admin'}}
-    <p>Name: {{idGrupo.name}}</p>
-    <p>Day of payment: {{idGrupo.paymentDay}}</p>
-    <form action="/group/{{idGrupo._id}}" method="post">
-      <button type="submit">Group information</button> 
-    </form>
-  {{/is}}
-{{/each}}
+  <nav class="nav">  
+      <div class="logoNav">  
+        <a href="/"><img src="/images/kikundi-logo-white.png"></a>
+      </div>
+      <ul class="navList">
+        <li><a href="/search-tribes">Search tribes</a></li>
+        <li><a href="/create-new-tribe">Create new tribe</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      </ul>
+  </nav>
 
-<h3>Member:</h3>
-{{#each belong}}
-  {{#is idRole 'Member'}}
-    <p>Name: {{idGrupo.name}}</p>
-    <p>Day of payment: {{idGrupo.paymentDay}}</p>
-    <form action="/group/{{idGrupo._id}}" method="post">
-      <button type="submit">Group information</button> 
-    </form>
-  {{/is}}
-{{/each}}  
+  <div class="containerIdex">
 
+    <h1 class="titleIndex">Tribe of {{belong.0.idUser.username}}</h1>
 
+    <div class="groupIndex">
+
+      <div class="listGroupindex">
+        <h3>Admin</h3>
+        {{#each belong}} 
+          {{#is idRole 'Admin'}}
+            <form action="/group/{{idGrupo._id}}" method="post">
+              <button class="btn btnGroupindex" type="submit">
+                <div class="elementGroupindex">
+                  <h2>{{idGrupo.name}}</h2>
+                  <div class="infoElementGroupindex">
+                    <p>Payment day: {{idGrupo.paymentDay}}</p>
+                    <p>Monthly fee: {{idGrupo.pricePerson}}€</p>
+                  </div>
+                </div>
+              </button> 
+            </form>
+          {{/is}}
+        {{/each}}
+      </div>
+
+      <div class="listGroupindex">
+        <h3>Member</h3>
+        {{#each belong}}
+          {{#is idRole 'Member'}}
+          <div class="elementGroupindex">
+            <p>Name: {{idGrupo.name}}</p>
+            <p>Day of payment: {{idGrupo.paymentDay}}</p>
+            <form action="/group/{{idGrupo._id}}" method="post">
+              <button type="submit">Group information</button> 
+            </form>
+          </div>
+          {{/is}}
+        {{/each}}  
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

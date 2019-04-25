@@ -2,7 +2,7 @@
 <p>Name: {{group.name}}</p>
 <p>Admin: {{group.leader.username}}</p>
 <p>Service: {{group.service.name}}</p>
-<p id="stocazzo">Free Place: {{group.freePlace}}</p>
+<p>Free Place: {{group.freePlace}}</p>
 <p>Price Person: {{group.pricePerson}}€</p>
 <p>Description: {{group.description}}</p>
 
@@ -66,7 +66,7 @@
       .then(removedMemberInfo => {
         console.log(freePlace);
         document.getElementById("member-" + id).style.display = "none"
-        document.getElementById("stocazzo").innerHTML = freePlace + 1
+        document.getElementById("").innerHTML = freePlace + 1
       })
   }*/
 

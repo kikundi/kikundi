@@ -51,67 +51,67 @@ mongoose
 //   throw err
 // })
 
-// let services = [
+let services = [
+  {
+    name: "Netflix",
+    picture: "https://res.cloudinary.com/dviu0dsxd/image/upload/v1556221019/kikundi-logos/logo_Netflix_exbwex.png"
+  },
+  {
+    name: "Spotify",
+    picture: "https://res.cloudinary.com/dviu0dsxd/image/upload/v1556221019/kikundi-logos/logo_Spotify_x3slvl.png"
+  },
+  {
+    name: "Movistar",
+    picture: "https://res.cloudinary.com/dviu0dsxd/image/upload/v1556221019/kikundi-logos/logo_Movistar_wmlq5u.png"
+  },
+  {
+    name: "HBO",
+    picture: "https://res.cloudinary.com/dviu0dsxd/image/upload/v1556221019/kikundi-logos/logo_Hbo_qsgmmr.png"
+  },
+  {
+    name: "beIn Sport",
+    picture: "https://res.cloudinary.com/dviu0dsxd/image/upload/v1556221019/kikundi-logos/logo_Bein_g1wyik.png"
+  }
+];
+
+Service.deleteMany()
+.then(() => {
+  return Service.create(services)
+})
+.then(() => {
+  mongoose.disconnect()
+})
+.catch(err => {
+  mongoose.disconnect()
+  throw err
+})
+
+// let belongs = [
 //   {
-//     name: "Netflix",
-//     picture: "img1"
+//   idUser: '5cbf23ba1612325412183f5c',
+//   idGrupo: '5cc183c4e339440dbf0dd9f2',	
+//   idRole: 'Member'
 //   },
 //   {
-//     name: "Spotify",
-//     picture: "img2"
-//   },
-//   {
-//     name: "Movistar",
-//     picture: "img3"
-//   },
-//   {
-//     name: "HBO",
-//     picture: "img4"
-//   },
-//   {
-//     name: "beIn Sport",
-//     picture: "img5"
+//   idUser: '5cc07f5f5bbe001b0fbc387c',
+//   idGrupo: '5cc183c4e339440dbf0dd9f2',	
+//   idRole: 'Member'
 //   }
 // ];
 
 // Service.deleteMany()
 // .then(() => {
-//   return Service.create(services)
+//   return 
 // })
+// Belong.create(belongs)
 // .then(() => {
-//   mongoose.disconnect()
+//   console.log("success")
+//   mongoose.disconnect();
 // })
 // .catch(err => {
+//   console.log(err)
 //   mongoose.disconnect()
 //   throw err
 // })
-
-let belongs = [
-  {
-  idUser: '5cbf23ba1612325412183f5c',
-  idGrupo: '5cc183c4e339440dbf0dd9f2',	
-  idRole: 'Member'
-  },
-  {
-  idUser: '5cc07f5f5bbe001b0fbc387c',
-  idGrupo: '5cc183c4e339440dbf0dd9f2',	
-  idRole: 'Member'
-  }
-];
-
-// Service.deleteMany()
-// .then(() => {
-//   return 
-// })
-Belong.create(belongs)
-.then(() => {
-  console.log("success")
-  mongoose.disconnect();
-})
-.catch(err => {
-  console.log(err)
-  mongoose.disconnect()
-  throw err
-})
 
 

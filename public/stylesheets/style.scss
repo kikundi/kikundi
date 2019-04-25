@@ -1,8 +1,259 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,700');
+
+// font-family: 'Poppins', sans-serif;
+// darkGreen: #173E43
+// lightBlue: #3FB0AC
+// grey: #DDDFD4
+// yellow: #FAE596;
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 10rem;
+  background-color: #173E43;
+  font-family: 'Poppins', sans-serif;
+  // display: flex;
+}
+ 
+.leftPartLogin {
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
 }
 
-a {
-  color: #00B7FF;
+.logoLogin {
+  width: 30vw;
+  margin-top: 10vh;
+}
+
+.logoLogin img{
+  width: 100%;
+}
+
+.leadLogin {
+  font-family: 'Poppins', sans-serif;
+  color: #3FB0AC;
+  font-weight: 700; 
+  font-size:6rem;
+  margin-bottom: 10vh; 
+}
+
+.rightPartLogin {
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.facebookSign {
+  font-family: 'Poppins', sans-serif; 
+  color: #DDDFD4;
+  font-size: 1.3rem;
+  margin-top: 10vh;
+}
+
+.account-message {
+  font-weight: 100;
+  margin-bottom: 10px;
+}
+
+.account-message a{
+  color: #DDDFD4;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.formLogin{
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  margin-bottom:10vh;
+}
+
+.form h2 {
+  color: #DDDFD4;
+  font-weight: 400;
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 20px;
+}
+
+.inputLogin {
+  margin-bottom: 20vh;
+  display: flex;
+  flex-direction: column; 
+}
+
+.inputSign {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column; 
+}
+
+.selectSign {
+  display: flex;
+  justify-content: space-between; 
+}
+
+.formSign {
+  margin-top: 5vh;
+}
+
+.selectSign {
+  margin-bottom:20px; 
+}
+
+.selectSign label {
+  font-weight: 100;
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  color:#FAE596;
+}
+
+.selectSign select {
+  width: 10vw;
+  border: 1px solid #FAE596;
+  background-color: #173E43;
+  color : #FAE596;
+}
+
+.input input {
+  border: 3px solid #3FB0AC;
+  background-color: #173E43;
+  padding: 5px 10px;
+  font-weight: 100;
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 20px; 
+  color:#FAE596;
+}
+
+.input input::-webkit-input-placeholder {
+  color:#FAE596;
+}
+
+.btnLogin {
+  padding: 5px 10px;
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-align: left;
+  background-color: #FAE596;
+  color: #173E43;
+}
+
+.containerPageLogSign {
+  display: flex;
+}
+
+.containerPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav{
+  display: flex;
+  background-color:#173E43;
+  height: 10vh;
+  // border-bottom:2px solid #fff;
+  justify-content: space-between; 
+  // width: 100vw;
+  align-items: center;
+  padding: 0 3vw;
+}
+ 
+.logoNav {
+  width: 15vw;
+}
+
+.logoNav img {
+  width: 100%;
+}
+
+.navList {
+  display: flex;
+}
+
+.navList li a {
+  text-decoration: none;
+  color: #DDDFD4;
+  font-weight: 400;
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  margin-left:20px; 
+}
+
+.containerIdex {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.containerIdex h1 {
+  font-weight: 400;
+  font-size: 4rem;
+  font-family: 'Poppins', sans-serif;
+  color: #DDDFD4;
+  margin-top: 5vh;
+}
+
+.groupIndex {
+  display: flex;
+  justify-content: space-around;
+}
+
+.listGroupindex {
+  margin-top: 8vh;
+  display: flex;
+  flex-direction: column;
+  width: 40vw;
+  align-items: center;
+  background-color:  #DDDFD4;
+  border-radius:20px; 
+  padding: 30px 0;
+  height: 50vh;
+  overflow: scroll;
+}
+
+.listGroupindex h3{
+  font-weight: 400;
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  color: #173E43;
+}
+
+.elementGroupindex {
+  width: 30vw;
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.elementGroupindex h2 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.btnGroupindex {
+  cursor: pointer;
+  border: 0;
+  background:none;
+  border-bottom: 1px solid #173E43;
+  padding: 10px 0;
+  margin-top:30px; 
+}
+
+.infoElementGroupindex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.containerCreateNew {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
