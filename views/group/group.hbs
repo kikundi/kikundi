@@ -1,3 +1,18 @@
+<div class="containerPage">
+
+  <nav class="nav">  
+      <div class="logoNav">  
+        <a href="/"><img src="/images/kikundi-logo-white.png"></a>
+      </div>
+      <ul class="navList">
+        <li><a href="/search-tribes">Search tribes</a></li>
+        <li><a href="/create-new-tribe">Create new tribe</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      </ul>
+  </nav>
+
+
 <h2>Tribe page</h2>
 <p>Name: {{group.name}}</p>
 <p>Admin: {{group.leader.username}}</p>
@@ -42,7 +57,7 @@
   {{#each notifications}}
 
     <p>From: {{idUserFrom.username}}</p>
-    <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}" method="post">
+    <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}/{{idGroup.service}}" method="post">
       <button type="submit">Add to group</button>
     </form>
     <form action="/declineMember/{{this.id}}" method="post">
@@ -57,6 +72,8 @@
   </form>
 
 {{/is}}
+
+</div>
 
 <script>
   

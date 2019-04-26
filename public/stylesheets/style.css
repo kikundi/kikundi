@@ -172,7 +172,7 @@ body {
   background-color: #DDDFD4;
   border-radius: 20px;
   padding: 30px 0;
-  height: 50vh;
+  height: 55vh;
   overflow: scroll; }
 
 .listGroupindex h3 {
@@ -190,7 +190,9 @@ body {
 .elementGroupindex h2 {
   font-weight: 700;
   font-size: 1.8rem;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center; }
 
 .btnGroupindex {
   cursor: pointer;
@@ -202,12 +204,77 @@ body {
 
 .infoElementGroupindex {
   display: flex;
-  justify-content: space-between; }
+  justify-content: space-between;
+  font-size: 1rem; }
+
+.logoServiceIndex {
+  height: 10vh;
+  margin-bottom: 20px;
+  width: 100%; }
+
+.logoServiceIndex img {
+  height: 100%; }
 
 .containerCreateNew {
   height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center; }
+
+.containerSearchTribe {
+  display: flex;
+  margin-left: 3vw;
+  flex-direction: column; }
+
+.containerSearchTribe h2 {
+  color: #DDDFD4;
+  font-weight: 400;
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 20px;
+  margin-top: 3vh; }
+
+.searchElements {
+  display: flex;
+  flex-direction: column; }
+
+.searchElements button {
+  display: flex;
+  width: 94vw;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #DDDFD4;
+  height: 15vh;
+  margin-bottom: 20px; }
+
+.logoImgSearch img {
+  width: 15vw; }
+
+.logoImgSearch {
+  border-right: 1px solid  #173E43;
+  width: 20vw;
+  height: 13vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.infoElement {
+  color: #173E43;
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin-left: 5vw;
+  justify-content: center;
+  height: 13vh; }
+
+.infoElement span {
+  font-weight: 300; }
+
+.infoElement .line {
+  display: flex;
+  width: 50vw;
+  justify-content: space-between; }
 
 /*# sourceMappingURL=style.css.map */

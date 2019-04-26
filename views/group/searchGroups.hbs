@@ -1,14 +1,43 @@
-<h2>Search tribes</h2>
-<ul>
-  {{#each groups}}
-    <li>
-        <p>Name: {{this.name}}</p>
-        <p>Admin: {{this.leader.username}}</p>
-        <p>Service: {{this.service.name}}</p>
-        <p>Free Place: {{this.freePlace}}</p>
-        <form action="/group/{{this.id}}" method="post">
-          <button type="submit">Group information</button> 
-        </form>
-    </li>
-  {{/each}}
-</ul> 
+<div class="containerPage">
+
+  <nav class="nav">  
+      <div class="logoNav">  
+        <a href="/"><img src="/images/kikundi-logo-white.png"></a>
+      </div>
+      <ul class="navList">
+        <li><a href="/search-tribes">Search tribes</a></li>
+        <li><a href="/create-new-tribe">Create new tribe</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      </ul>
+  </nav>
+
+  <div class="containerSearchTribe">
+    <h2>Search tribes</h2>
+    <div class="searchElements">
+      <ul>
+        {{#each groups}}
+          <li>
+            <form action="/group/{{this.id}}" method="post">
+              <button type="submit">              
+                <div class="logoImgSearch">
+                  <img src="{{this.service.picture}}" alt="service_logo">
+                </div>
+                <div class="infoElement">
+                  <div class="line">
+                    <p><span>name:</span> {{this.name}}</p>
+                    <p><span>admin:</span> {{this.leader.username}}</p>
+                  </div>
+                  <div class="line">
+                    <p><span>monthly fee:</span> {{this.pricePerson}}€</p>
+                    <p><span>free Place:</span> {{this.freePlace}}</p>
+                  </div>
+                </div>
+              </button> 
+            </form>
+          </li>
+        {{/each}}
+      </ul> 
+    </div>
+    </div>
+</div>

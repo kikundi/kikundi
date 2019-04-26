@@ -9,7 +9,8 @@ const Belong = require("../models/Belong");
 router.get('/', ensureLoggedIn('auth/login'), (req, res, next) => {
   Belong.find({idUser: req.user.id})
   .populate('idUser')
-  .populate({ path: 'idGrupo', populate: { path: 'service', model:'Service' }})
+  .populate('idGrupo')
+  .populate('idService')
   .then((belong) => {
     res.render('index', {belong});
   });

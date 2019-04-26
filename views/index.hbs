@@ -25,7 +25,9 @@
             <form action="/group/{{idGrupo._id}}" method="post">
               <button class="btn btnGroupindex" type="submit">
                 <div class="elementGroupindex">
-                  <h2>{{idGrupo.name}}</h2>
+                  <div class="logoServiceIndex">
+                    <img src="{{idService.picture}}" alt="logo group">
+                  </div>
                   <div class="infoElementGroupindex">
                     <p>Payment day: {{idGrupo.paymentDay}}</p>
                     <p>Monthly fee: {{idGrupo.pricePerson}}€</p>
@@ -41,13 +43,19 @@
         <h3>Member</h3>
         {{#each belong}}
           {{#is idRole 'Member'}}
-          <div class="elementGroupindex">
-            <p>Name: {{idGrupo.name}}</p>
-            <p>Day of payment: {{idGrupo.paymentDay}}</p>
             <form action="/group/{{idGrupo._id}}" method="post">
-              <button type="submit">Group information</button> 
+              <button class="btn btnGroupindex" type="submit">
+                <div class="elementGroupindex">
+                  <div class="logoServiceIndex">
+                    <img src="{{idService.picture}}" alt="logo group">
+                  </div>
+                  <div class="infoElementGroupindex">
+                    <p>Payment day: {{idGrupo.paymentDay}}</p>
+                    <p>Monthly fee: {{idGrupo.pricePerson}}€</p>
+                  </div>
+                </div>
+              </button> 
             </form>
-          </div>
           {{/is}}
         {{/each}}  
       </div>

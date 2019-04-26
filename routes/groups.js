@@ -43,7 +43,8 @@ router.post('/create-new-tribe', (req,res,next) => {
     let belong = new Belong({
       idUser: req.user.id,
       idGrupo: grupo._id,
-      idRole: "Admin"
+      idRole: "Admin",
+      idService: grupo.service
     });
     belong.save()
     .then()
@@ -142,11 +143,12 @@ router.post('/sendRequest/:groupid', (req, res, next) => {
 });
 
 //add member 
-router.post('/addMember/:userid/:groupid/:notificationid', (req, res, next) => {
+router.post('/addMember/:userid/:groupid/:notificationid/:serviceid', (req, res, next) => {
   let belong = new Belong({
     idUser: req.params.userid,
     idGrupo: req.params.groupid,
-    idRole: "Member"
+    idRole: "Member",
+    idService:req.params.serviceid
   });
   belong.save()
   .then(() => {
