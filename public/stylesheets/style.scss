@@ -354,8 +354,8 @@ body {
   width: 50vw;
   flex-direction: column;
   height: 90vh;
-  justify-content: space-around;
   align-items: center;
+  overflow: scroll;
 }
 
 .groupImg {
@@ -533,4 +533,12 @@ body {
   border-radius: 15px; 
   border: 0; 
   cursor: pointer;
+}
+
+.memberGroupRequest {
+  display: flex;
+  justify-content: space-between;
+  width: 30vw;
+  padding: 0;
+  margin: 0;
 }

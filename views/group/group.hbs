@@ -80,19 +80,22 @@
           {{/each}} 
         </div>
 
-        <div class="memberGroup">
-          <div class="memberGroupTitle">  
-            <h2>Members:</h2>
+        {{#empty belong}}
+        {{else}}
+          <div class="memberGroup">
+            <div class="memberGroupTitle">  
+              <h2>Members:</h2>
+            </div>
+          {{#each belong}}
+            <div class="memberGroupPayment">
+              <p><span>username:</span> {{idUser.username}}</p>
+              <form action="/removeMember/{{this.id}}/{{idGrupo._id}}" method="post">
+                <button type="submit">remove member</button>
+              </form>
+            </div>
+          {{/each}}
           </div>
-        {{#each belong}}
-          <div class="memberGroupPayment">
-            <p><span>username:</span> {{idUser.username}}</p>
-            <form action="/removeMember/{{this.id}}/{{idGrupo._id}}" method="post">
-              <button type="submit">remove member</button>
-            </form>
-          </div>
-        {{/each}}
-        </div>
+        {{/empty}}
 
         {{#empty notifications}}
         {{else}}
@@ -102,13 +105,15 @@
             </div>  
             {{#each notifications}}
             <div class="memberGroupPayment">
-              <p><span>from:</span> {{idUserFrom.username}}</p>
-              <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}/{{idGroup.service}}" method="post">
-                <button type="submit">add to group</button>
-              </form>
-              <form action="/declineMember/{{this.id}}" method="post">
-                <button type="submit">decline request</button>
-              </form>
+                <p><span>from:</span> {{idUserFrom.username}}</p>
+                <div class="memberGroupRequest">
+                  <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}/{{idGroup.service}}" method="post">
+                    <button type="submit">add to group</button>
+                  </form>
+                  <form action="/declineMember/{{this.id}}" method="post">
+                    <button type="submit">decline request</button>
+                  </form>
+                </div>
             </div>
           {{/each}}
           </div>
