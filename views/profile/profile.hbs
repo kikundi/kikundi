@@ -1,9 +1,39 @@
-<h2>Profile Page</h2>
-<div>
-  <img src="{{userInfo.picture}}" alt="Profile image">
-  <h2>{{userInfo.name}}</h2>
-  <h2>{{userInfo.email}}</h2>
-  <h2>{{userInfo.phone}}</h2>
-</div>
+<div class="containerPage">
 
-<a href="/edit-profile">Edit Profile</a>
+  <nav class="nav">  
+      <div class="logoNav">  
+        <a href="/"><img src="/images/kikundi-logo-white.png"></a>
+      </div>
+      <ul class="navList">
+        <li><a href="/search-tribes">Search tribes</a></li>
+        <li><a href="/create-new-tribe">Create new tribe</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      </ul>
+  </nav>
+
+  <div class="groupPage">
+
+    <div class="leftPartProfile">
+      <div class="profileImg">
+        <img src="{{userInfo.picture}}" alt="Profile image">
+      </div>
+    </div>
+
+    <div class="rightPartProfile">
+      <div class="profileInfo">
+        <h2>Profile Page</h2>
+        <div class="profileInfoDatos">
+          <p><span>username:</span>{{userInfo.name}}</p>
+          <p><span>email:</span>{{userInfo.email}}</p>
+          <p><span>phone:</span>{{userInfo.phone}}</p>
+          <div class="profileLink">
+            <a href="/edit-profile">edit profile</a>
+          </div>
+        </div>
+     </div>
+    </div>
+
+  </div>
+
+</div>
