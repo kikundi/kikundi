@@ -342,7 +342,8 @@ body {
   font-family: 'Poppins', sans-serif;
   width: 40vw;
   color: #DDDFD4;
-  font-size: 1.3rem; }
+  font-size: 1.3rem;
+  margin-top: 3vh; }
 
 .memberGroupTitle {
   background-color: #DDDFD4;
@@ -401,7 +402,8 @@ body {
 .formGroup button {
   width: 100%;
   text-align: center;
-  cursor: pointer; }
+  cursor: pointer;
+  margin: 3vh 0; }
 
 .paymentPage {
   display: flex;
@@ -447,11 +449,87 @@ body {
   border: 0;
   cursor: pointer; }
 
+.requestGroup {
+  height: 90vh;
+  display: flex;
+  align-items: center; }
+
 .memberGroupRequest {
   display: flex;
   justify-content: space-between;
   width: 30vw;
   padding: 0;
   margin: 0; }
+
+.leftPartProfile {
+  display: flex;
+  width: 50vw;
+  height: 90vh;
+  justify-content: space-around; }
+
+.profileImg {
+  margin-top: 5vh;
+  width: 30vw; }
+
+.profileImg img {
+  width: 100%;
+  border: 2px solid #FAE596; }
+
+.rightPartProfile {
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  height: 90vh;
+  align-items: center; }
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  width: 45vw; }
+
+.profileInfo h2 {
+  color: #DDDFD4;
+  font-weight: 400;
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 5vh;
+  margin-top: 5vh; }
+
+.profileLink {
+  display: flex;
+  width: 40vw;
+  justify-content: center; }
+
+.profileLink a {
+  text-decoration: none;
+  color: #FAE596;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif; }
+
+.profileInfoDatos {
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  width: 40vw;
+  color: #DDDFD4;
+  font-size: 1.3rem;
+  display: flex;
+  border: 2px solid  #DDDFD4;
+  border-radius: 15px;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0; }
+
+.profileInfoDatos p {
+  width: 30vw;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px; }
+
+.profileInfoDatos span {
+  font-weight: 100; }
 
 /*# sourceMappingURL=style.css.map */

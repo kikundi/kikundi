@@ -38,9 +38,11 @@
         {{!-- {{#if message }}
           <div class="sendMessage">{{ message }}</div>
         {{/if}} --}}
-        <form class="requestButton" action="/sendRequest/{{group.id}}" method="post">
-          <button type="submit">send request</button>
-        </form>
+        <div class="requestGroup">
+          <form class="requestButton" action="/sendRequest/{{group.id}}" method="post">
+            <button type="submit">send request</button>
+          </form>
+        </div>
 
       {{/is}}
 
