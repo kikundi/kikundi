@@ -13,13 +13,14 @@
     <p class="account-message">Do you already have an account? <a href="/auth/login">Login</a></p>
   </div>
 
-  <form action="/auth/signup" method="POST" id="form-container" class="formLogin form formSign">
+  <form action="/auth/signup" method="POST" id="form-container" class="formLogin form formSign" enctype="multipart/form-data">
     <h2>Signup</h2>
     <div class="inputSign input">
       <input id="username" type="text" name="username" placeholder="username">
       <input id="password" type="password" name="password" placeholder="password">
       <input id="email" type="email" name="email" placeholder="email">
       <input id="phone" type="text" name="phone" placeholder="phone number">
+      <input id="picture" type="file" name="picture" placeholder="profile image">
       <input id="cardNumber" type="text" name="cardNumber" placeholder="credit card number">
       <input id="cardName" type="text" name="cardName" placeholder="credit card owner">
       

@@ -1,1 +1,69 @@
 <h2>Edit Profile</h2>
+<form action="/edit" method="post" id="form-container" enctype="multipart/form-data">
+  <label for="username">Change your username</label>
+  <input id="username" type="text" name="username">
+
+  <br><br>
+  
+  <label for="email">Change your email</label>
+  <input id="email" type="email" name="email" value="{{userInfo.email}}">
+  
+  <br><br>
+ 
+  <label for="phone">Change your phone number</label>
+  <input id="phone" type="text" name="phone" value="{{userInfo.phone}}">
+  
+  <br><br>
+  
+  <label for="cardNumber">Change your credit card number</label>
+  <input id="cardNumber" type="text" name="cardNumber" value="{{userInfo.cardNumber}}">
+  
+  <br><br>
+
+  <label for="cardName">Are you owner?</label>
+  <input id="cardName" type="text" name="cardName" value="{{userInfo.cardName}}">
+
+  <br><br>
+
+  <label for="cardMonth">Expiration month</label>
+  <select name="cardMonth" id="cardMonth" value="{{userInfo.cardMonth}}">
+    <option value="01" selected>01</option> 
+    <option value="02">02</option>
+    <option value="03">03</option>
+    <option value="04">04</option>
+    <option value="05">05</option>
+    <option value="06">06</option>
+    <option value="07">07</option>
+    <option value="08">08</option>
+    <option value="09">09</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select>
+
+    <br><br>
+
+  <label for="cardYear">Expiration Year</label>
+  <select name="cardYear" id="cardYear" value="{{userInfo.cardYear}}">
+    <option value="2019" selected>2019</option> 
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+    <option value="2028">2028</option>
+    <option value="2029">2029</option>
+  </select>
+
+  <br>
+  {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+
+  <br><br>
+<button>Save your changes</button>
+
+</form>
