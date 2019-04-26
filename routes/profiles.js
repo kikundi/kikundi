@@ -4,21 +4,44 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const uploadCloud = require('../config/cloudinary.js');
+const multer = require("multer");
 
 router.get('/profile', (req, res, next) => {
-  res.render('profile/profile');
+  User.findById(req.user.id)
+    .then((userData) => {
+      const userInfo = {
+        name: userData.username,
+        email: userData.email,
+        picture: userData.picture,
+        phone: userData.phone,
+      };
+      res.render('profile/profile', { userInfo });
+    })
+    .catch(error => res.render('/login'))
 });
 
 router.get('/edit-profile', (req, res, next) => {
-  res.render('profile/editProfile');
+  const userInfo = req.user
+    res.render('profile/editProfile', {userInfo});
 });
 
-router.put('/edit-profile', uploadCloud.single('photo'), (req, res, next) => {
-  const {name, password, picture} = req.body;
-
-  User.findByIdAndUpdate(req.body.name, req.body.password, req.body.picture)
-    .then(updateUser => res.redirect('/edit-profile'))
-    .catch(() => res.redirect('/index'));
+router.post('/edit', uploadCloud.single('picture'), (req, res, next) => {
+  const {username, email, phone, cardNumber, cardName, cardMonth, cardYear} = req.body
+  User.findByIdAndUpdate(req.user.id, { $set: {
+    username, 
+    email, 
+    phone, 
+    cardNumber,
+    cardName,
+    cardMonth,
+    cardYear
+    }}, {new:true}
+    )
+    .then((userInfo) => {
+      res.redirect("profile/profile", {userInfo});
+    })
+    .catch(error => res.render('/login')
+    )
 });
 
 router.delete('/delete-profile', (req, res, next) => {

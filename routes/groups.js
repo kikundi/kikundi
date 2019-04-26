@@ -8,6 +8,7 @@ const Belong = require("../models/Belong");
 const Payment = require("../models/Payment");
 const Role = require("../models/Role");
 const Notification = require("../models/Notification");
+const Comment = require("../models/Comment");
 
 
 //create new tribe
@@ -120,11 +121,9 @@ router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), 
         .populate('idGroupLeader')
         .populate('idGrupo')
         .then(payments => {
-          console.log('ROL');
-          console.log(req.role);
-          console.log('payments');
-          console.log(payments);
-          res.render('group/group', {notifications, group, username:req.user.username, user:req.role, belong, payments})
+          Comment.find({groupID: req.params.groupid})
+            .populate('userID')
+            .then((comments) => {res.render('group/group', {notifications, group,  username:req.user.username, user:req.role, belong, payments, comments, userData: req.user})})
         })
         
       });

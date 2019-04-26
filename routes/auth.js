@@ -5,6 +5,9 @@ const router = express.Router();
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+const uploadCloud = require('../config/cloudinary.js');
+const multer = require("multer");
+
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
@@ -23,10 +26,11 @@ router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
 });
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", uploadCloud.single('picture'), (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
+  const picture = req.body.picture;
   const phone = req.body.phone;
   const cardNumber = req.body.cardNumber;
   const cardName = req.body.cardName;
@@ -58,6 +62,7 @@ router.post("/signup", (req, res, next) => {
       username,
       password: hashPass,
       email,
+      picture: req.file.url,  
       phone,
       cardNumber,
       cardName,
