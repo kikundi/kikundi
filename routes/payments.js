@@ -49,7 +49,7 @@ router.get('/payments/create/:idUser/:groupid', (req, res, next) => {
     const newPayment = new Payment({ idUser, idGrupo, idGroupLeader, quota, status });
     newPayment.save()
       .then((payments) => {
-        res.redirect("/search-tribes");
+        res.redirect("/");
       })
       .catch((error) => {
         console.log(error);
@@ -84,7 +84,7 @@ router.get('/payments/execute/:idPayment', (req, res, next) => {
             source: token.id ,
             receipt_email: `${stripeMailRcpt}`
           }).then(charge => {
-            Payment.findByIdAndUpdate(idPayment , {status: 'Pending', invoice:charge.receipt_url})
+            Payment.findByIdAndUpdate(idPayment , {status: 'Completed', invoice:charge.receipt_url})
             .then(paymentProcesed=>{
               // { username:req.user.username, quota: quota, cardNumber: cardNumber , receipt_email:`${stripeMailRcpt}`, invoice:charge.receipt_url }
               res.render('payments/invoice', { username:req.user.username, quota: quota, cardNumber: cardNumber , receipt_email:`${stripeMailRcpt}`, invoice:charge.receipt_url })})

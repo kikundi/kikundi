@@ -1,7 +1,14 @@
-<h3>You are {{username}}</h3>
-<h4>Dear customer, please check your invoice regarding this transaction:</h4>
-<p>Name: {{username}}</p>
-<p>Quota: {{quota}}</p>
-<p>Card Number: {{cardNumber}}</p>
-<p>Email: {{receipt_email}}</p>
-<a href={{invoice}}>View invoice.</a>
+<div class="paymentPage">
+  <div class="paymentPrebox">
+    <h2>{{username}}</h2>
+    <div class="paymentBox">
+      <div class="memberGroupPayment">
+        <p>Dear customer, please check your invoice regarding this transaction:</p>
+        <p><span>monthly fee:</span>{{quota}}€</p>
+        <p><span>card number:</span> {{cardNumber}}</p>
+        <p><span>email:</span> {{receipt_email}}</p>
+        <a href={{invoice}}>view invoice</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -32,9 +32,16 @@
     <div class="rightPartGroup">
 
       {{#is user 'none'}}
-        <div id="request-{{group.id}}">
-          <button onclick="sendRequest(`/sendRequest/{{group.id}}`, `{{group.id}}`)" type="button" data-address=>Send Request</button>
-        </div>
+        {{!-- <div id="request-{{group.id}}" class="requestButton">
+          <button onclick="sendRequest(`/sendRequest/{{group.id}}`, `{{group.id}}`)" type="button" data-address=>send request</button>
+        </div> --}}
+        {{!-- {{#if message }}
+          <div class="sendMessage">{{ message }}</div>
+        {{/if}} --}}
+        <form class="requestButton" action="/sendRequest/{{group.id}}" method="post">
+          <button type="submit">send request</button>
+        </form>
+
       {{/is}}
 
       {{#is user 'Member'}}

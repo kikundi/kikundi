@@ -187,7 +187,7 @@ router.post('/sendRequest/:groupid', (req, res, next) => {
     });
     notification.save()
     .then(() => {
-      res.json({removed: true, msg: "Sended!", timestamp: new Date()});
+        res.redirect("/");
     })
     .catch((err) => {
       next(err);
@@ -231,7 +231,7 @@ router.post('/addMember/:userid/:groupid/:notificationid/:serviceid', (req, res,
 router.post('/declineMember/:notificationid', (req, res, next) => {
   Notification.findByIdAndRemove(req.params.notificationid)
   .then(() => {
-    res.redirect("/search-tribes");
+    res.redirect("/");
   })
   .catch((err) => {
     next(err);
@@ -244,7 +244,7 @@ router.post('/removeMember/:belongid/:grupoid', (req, res, next) => {
   .then(() => {
     Group.findByIdAndUpdate(req.params.grupoid, {$inc: {freePlace:+1}}, {new:true})
     .then(() => {
-      res.redirect("/search-tribes");
+      res.redirect("/");
     })
     .catch((err) => {
       next(err);
@@ -259,7 +259,7 @@ router.post('/removeMember/:belongid/:grupoid', (req, res, next) => {
 router.post('/deleteGroup/:groupid', (req, res, next) => {
   Group.findByIdAndRemove(req.params.groupid)
   .then(() => {
-    res.redirect("/search-tribes");
+    res.redirect("/");
   })
   .catch((err) => {
     next(err);

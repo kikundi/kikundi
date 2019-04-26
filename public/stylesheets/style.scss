@@ -376,7 +376,7 @@ body {
   width: 40vw;
   color: #DDDFD4;
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
@@ -481,5 +481,56 @@ body {
 .formGroup button {
   width: 100%;
   text-align: center;
+  cursor: pointer;
+}
+
+.paymentPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.paymentBox {
+  border: 2px solid #DDDFD4;
+  border-radius:15px;
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  width: 40vw;
+  color:  #DDDFD4;
+  font-size: 1.3rem;
+}
+
+.paymentBox p:first-child{
+  margin-bottom: 30px; 
+  line-height: 2rem;
+}
+
+.paymentBox a {
+  margin-top: 30px;
+}
+
+.paymentPrebox h2 {
+  color: #DDDFD4;
+  font-weight: 400;
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 20px;
+}
+
+.requestButton {
+  width: 40vw;
+}
+
+.requestButton button {
+  height: 10vh;;
+  width: 100%;
+  text-decoration: none;
+  color: #173E43;
+  font-size: 1.5rem;
+  background-color: #FAE596;
+  border-radius: 15px; 
+  border: 0; 
   cursor: pointer;
 }
