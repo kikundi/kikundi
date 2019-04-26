@@ -133,4 +133,9 @@ router.get("/logout", (req, res) => {
   res.redirect("/auth/login");
 });
 
+
+router.get("/privacy", (req, res) => {
+  res.render('auth/privacy');
+})
+
 module.exports = router;
