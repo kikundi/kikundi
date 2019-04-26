@@ -29,6 +29,9 @@
       {{#is status 'Pending'}}
         <a href="/payments/execute/{{_id}}">Execute</a>
       {{/is}}
+      {{#is status 'Completed'}}
+        <a href="{{invoice}}">Invoice</a>
+      {{/is}}
   {{/each}}  
 {{/is}}
 
