@@ -1,19 +1,5 @@
 <div class="containerPage">
 
-  <h2>Payments:</h2>
-  {{#each payments}}
-      <p>{{idUser._id}}</p>
-      <p>{{status}}</p>
-      <p>{{quota}}</p>
-      {{#is status 'Pending'}}
-        <a href="/payments/execute/{{_id}}">Execute</a>
-      {{/is}}
-      {{#is status 'Completed'}}
-        <a href="{{invoice}}">Invoice</a>
-      {{/is}}
-  {{/each}}  
-{{/is}}
-
   <nav class="nav">  
       <div class="logoNav">  
         <a href="/"><img src="/images/kikundi-logo-white.png"></a>
@@ -33,17 +19,18 @@
         <img src="{{group.service.picture}}" alt="group image">
       </div>
       <div class="groupInfo">
-        <p><span>Name:</span> {{group.name}}</p>
-        <p><span>Admin:</span> {{group.leader.username}}</p>
-        <p><span>Service:</span> {{group.service.name}}</p>
-        <p><span>Free Place:</span> {{group.freePlace}}</p>
-        <p><span>Price Person:</span> {{group.pricePerson}}€</p>
-        <p><span>Description:</span> {{group.description}}</p>
+        <p><span>name group:</span> {{group.name}}</p>
+        <p><span>group admin:</span> {{group.leader.username}}</p>
+        <p><span>service:</span> {{group.service.name}}</p>
+        <p><span>free Place:</span> {{group.freePlace}}</p>
+        <p><span>monthly fee:</span> {{group.pricePerson}}€</p>
+        <p><span>description:</span> {{group.description}}</p>
       </div>
     </div>
 
 
     <div class="rightPartGroup">
+
       {{#is user 'none'}}
         <div id="request-{{group.id}}">
           <button onclick="sendRequest(`/sendRequest/{{group.id}}`, `{{group.id}}`)" type="button" data-address=>Send Request</button>
@@ -51,55 +38,77 @@
       {{/is}}
 
       {{#is user 'Member'}}
-      {{!--   {{#each belong}}
-        <p>Name: {{idUser.username}}</p>
-      {{/each}} --}}
-
-        <h2>Payments:</h2>
-        {{#each payments}}
-            <p>{{idUser._id}}</p>
-            <p>{{status}}</p>
-            <p>{{quota}}</p>
-            {{#is status 'Pending'}}
-              <a href="/payments/execute/{{_id}}">Execute</a>
-            {{/is}}
-        {{/each}}  
+        <div class="memberGroup">
+          <div class="memberGroupTitle">  
+            <h2>Payments:</h2>
+          </div>
+          {{#each payments}}
+            <div class="memberGroupPayment">
+              <p><span>username:</span>{{idUser.username}}</p>
+              <p><span>payment status:</span>{{status}}</p>
+              <p><span>monthly fee:</span>{{quota}}€</p>
+              {{#is status 'Pending'}}
+                <a href="/payments/execute/{{_id}}">execute payment</a>
+              {{/is}}
+              {{#is status 'Completed'}}
+                <a href="{{invoice}}">paid bill</a>
+              {{/is}}
+            </div>  
+          {{/each}}
+        </div> 
       {{/is}}
 
+
       {{#is user 'Admin'}}
+        <div class="memberGroup">
+          <div class="memberGroupTitle">
+            <h2>Payments:</h2>
+          </div>  
+          {{#each payments}}
+            <div class="memberGroupPayment">
+              <p><span>username:</span> {{idUser.username}}</p>
+              <p><span>payment status:</span> {{status}}</p>
+              <p><span>monthly fee:</span> {{quota}}€</p>
+            </div>  
+          {{/each}} 
+        </div>
 
-        <h2>Members:</h2>
+        <div class="memberGroup">
+          <div class="memberGroupTitle">  
+            <h2>Members:</h2>
+          </div>
         {{#each belong}}
-         <p>Name: {{idUser.username}}</p>
-          <form action="/removeMember/{{this.id}}/{{idGrupo._id}}" method="post">
-            <button type="submit">Remove Member</button>
-          </form>
+          <div class="memberGroupPayment">
+            <p><span>username:</span> {{idUser.username}}</p>
+            <form action="/removeMember/{{this.id}}/{{idGrupo._id}}" method="post">
+              <button type="submit">remove member</button>
+            </form>
+          </div>
         {{/each}}
-          <h2>Payments:</h2>
-        {{#each payments}}
-            <p>Name: {{idUser.username}}</p>
-            <p>Status: {{status}}</p>
-            <p>Quota: {{quota}} €</p>
-        {{/each}} 
+        </div>
 
+        {{#empty notifications}}
+        {{else}}
+          <div class="memberGroup">
+            <div class="memberGroupTitle">
+              <h2>Requests:</h2>
+            </div>  
+            {{#each notifications}}
+            <div class="memberGroupPayment">
+              <p><span>from:</span> {{idUserFrom.username}}</p>
+              <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}/{{idGroup.service}}" method="post">
+                <button type="submit">add to group</button>
+              </form>
+              <form action="/declineMember/{{this.id}}" method="post">
+                <button type="submit">decline request</button>
+              </form>
+            </div>
+          {{/each}}
+          </div>
+        {{/empty}}
 
-        <h2 id="request-headline">Requests:</h2>
-
-        {{#each notifications}}
-
-          <p>From: {{idUserFrom.username}}</p>
-          <form action="/addMember/{{idUserFrom.id}}/{{idGroup.id}}/{{this.id}}/{{idGroup.service}}" method="post">
-            <button type="submit">Add to group</button>
-          </form>
-          <form action="/declineMember/{{this.id}}" method="post">
-            <button type="submit">Decline request</button>
-          </form>
-        {{/each}}
-
-        <br><br>
-
-        <form action="/deleteGroup/{{group.id}}" method="post">
-          <button type="submit">Delete group</button>
+        <form class="formGroup" action="/deleteGroup/{{group.id}}" method="post">
+          <button class="btn btnLogin" type="submit">Delete group</button>
         </form>
 
       {{/is}}
