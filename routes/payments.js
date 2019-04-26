@@ -85,7 +85,9 @@ router.get('/payments/execute/:idPayment', (req, res, next) => {
             receipt_email: `${stripeMailRcpt}`
           }).then(charge => {
             Payment.findByIdAndUpdate(idPayment , {status: 'Completed', invoice:charge.receipt_url})
-            .then(paymentProcesed=>{res.redirect('payments/invoice.hbs', { username:req.user.username, quota: quota, cardNumber: cardNumber , receipt_email:`${stripeMailRcpt}`, invoice:charge.receipt_url })})
+            .then(paymentProcesed=>{
+              // { username:req.user.username, quota: quota, cardNumber: cardNumber , receipt_email:`${stripeMailRcpt}`, invoice:charge.receipt_url }
+              res.render('payments/invoice', { username:req.user.username, quota: quota, cardNumber: cardNumber , receipt_email:`${stripeMailRcpt}`, invoice:charge.receipt_url })})
           })                  
       }) 
     })
@@ -154,7 +156,8 @@ router.post('/payments/execute', (req, res, next) => {
           receipt_email: `${stripeMailRcpt}`
         }).then(charge => {
             Payment.findByIdAndUpdate(req.body.idPayment , {status: 'Completed', invoice:charge.receipt_url})
-            .then((paymentProcesed)=>{res.redirect('/payments');
+            .then((paymentProcesed)=>{
+              res.redirect('/payments')
             });
           }
         )

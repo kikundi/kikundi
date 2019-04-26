@@ -1,5 +1,19 @@
 <div class="containerPage">
 
+  <h2>Payments:</h2>
+  {{#each payments}}
+      <p>{{idUser._id}}</p>
+      <p>{{status}}</p>
+      <p>{{quota}}</p>
+      {{#is status 'Pending'}}
+        <a href="/payments/execute/{{_id}}">Execute</a>
+      {{/is}}
+      {{#is status 'Completed'}}
+        <a href="{{invoice}}">Invoice</a>
+      {{/is}}
+  {{/each}}  
+{{/is}}
+
   <nav class="nav">  
       <div class="logoNav">  
         <a href="/"><img src="/images/kikundi-logo-white.png"></a>
