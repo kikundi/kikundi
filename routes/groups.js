@@ -5,6 +5,8 @@ const User = require("../models/User");
 const Group = require("../models/Group");
 const Service = require("../models/Service");
 const Belong = require("../models/Belong");
+const Payment = require("../models/Payment");
+const Role = require("../models/Role");
 const Notification = require("../models/Notification");
 
 
@@ -66,7 +68,7 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
   .populate('leader')
   .populate('service')
   .then((groups) => {
-    res.render('group/searchGroups', {groups});
+    res.render('group/searchGroups', {groups, username:req.user.username});
   })
   .catch((err) => {
     next(err);
@@ -76,9 +78,11 @@ router.get('/search-tribes', ensureLoggedIn('auth/login'), (req, res, next) => {
 //roles
 function checkMembership() {
 	return (req, res, next) => { 
+    console.log({idGrupo: {$eq: req.params.groupid}});
     return Belong.find({idGrupo: {$eq: req.params.groupid}})
     .populate('idUser')
     .then((belong) => {
+      console.log(belong);
       const result = belong.filter(user => {
         return user.idUser.id === req.user.id;
       });
@@ -94,6 +98,48 @@ function checkMembership() {
 
 //tribe page 
 router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), (req, res, next) => {
+  console.log(`Buscamos ${req.params.groupid}`)
+  Group.findById(req.params.groupid)
+  .populate('leader')
+  .populate('service')
+  .then((group) => {
+    // console.log("group");
+    // console.log(group);
+    // console.log(group._id);
+    Belong.find({ $and: [ {idGrupo: {$eq: group._id }},{idRole:{$eq: 'Member' }}]})
+    .populate('idUser')
+    .then(belong => {
+      // console.log("belong");
+      // console.log(belong);
+      Notification.find({idGroup: {$eq: group._id}})
+      .populate('idUserFrom')
+      .populate('idGroup')
+      .then((notifications) => {
+        Payment.find({idGrupo: {$eq: group._id}})
+        .populate('idUser')
+        .populate('idGroupLeader')
+        .populate('idGrupo')
+        .then(payments => {
+          console.log('ROL');
+          console.log(req.role);
+          console.log('payments');
+          console.log(payments);
+          res.render('group/group', {notifications, group, username:req.user.username, user:req.role, belong, payments})
+        })
+        
+      });
+    })
+    .catch((err) => {
+      next(err);
+    });
+  })
+  .catch((err) => {
+    next(err);
+  });
+});
+
+//Only for testing
+router.get('/group/:groupid', (req, res, next) => {
   Group.findById(req.params.groupid)
   .populate('leader')
   .populate('service')
@@ -101,12 +147,22 @@ router.post('/group/:groupid', ensureLoggedIn('auth/login'), checkMembership(), 
     Belong.find({$and:[{idGrupo: group._id},{idRole:'Member'}]})
     .populate('idUser')
     .then(belong => {
+      console.log("belong");
       console.log(belong);
       Notification.find({idGroup: {$eq: group._id}})
       .populate('idUserFrom')
       .populate('idGroup')
       .then((notifications) => {
-        res.render('group/group', {notifications, group, user:req.role, belong});
+        Payment.find({idGrupo: {$eq: group._id}})
+        .populate('idUser')
+        .populate('idGroupLeader')
+        .populate('idGrupo')
+        .then(payments => {
+          console.log("Payments");
+          console.log(payments);
+          res.render('group/group', {notifications, group, user:req.role, belong, payments})
+        })
+        
       });
     })
     .catch((err) => {
@@ -153,18 +209,19 @@ router.post('/addMember/:userid/:groupid/:notificationid/:serviceid', (req, res,
   belong.save()
   .then(() => {
     Group.findByIdAndUpdate(req.params.groupid, {$inc: {freePlace:-1}}, {new:true})
-    .then(() => {
-        res.redirect("/search-tribes");
+    .then(() => {   
+        Notification.findByIdAndRemove(req.params.notificationid)
+        .then(
+          res.redirect(`/payments/create/${req.params.userid}/${req.params.groupid}`)          
+          )
+        .catch((err) => {
+          next(err);
+        });
     })
     .catch((err) => {
       next(err);
     });
   })
-  .catch((err) => {
-    next(err);
-  });
-  Notification.findByIdAndRemove(req.params.notificationid)
-  .then()
   .catch((err) => {
     next(err);
   });

@@ -23,6 +23,7 @@
 
 
 
+
 {{#is user 'none'}}
   <div id="request-{{group.id}}">
     <button onclick="sendRequest(`/sendRequest/{{group.id}}`, `{{group.id}}`)" type="button" data-address=>Send Request</button>
@@ -30,16 +31,22 @@
 {{/is}}
 
 {{#is user 'Member'}}
+{{!--   {{#each belong}}
+  <p>Name: {{idUser.username}}</p>
+{{/each}} --}}
 
-  <h2 id="members-headline">Members:</h2>
-
-
-  {{#each belong}}
-    <p>Name: {{idUser.username}}</p>
-  {{/each}}
-
+  <h2>Payments:</h2>
+  {{#each payments}}
+      <p>{{idUser._id}}</p>
+      <p>{{status}}</p>
+      <p>{{quota}}</p>
+      {{#is status 'Pending'}}
+        <a href="/payments/execute/{{_id}}">Execute</a>
+      {{/is}}
+  {{/each}}  
 {{/is}}
 
+<<<<<<< HEAD
 {{#is user 'Admin'}}
   
   <h2>Members:</h2>
@@ -49,7 +56,12 @@
       <button type="submit">Remove Member</button>
     </form>
   {{/each}}
-
+    <h2>Payments:</h2>
+  {{#each payments}}
+      <p>Name: {{idUser.username}}</p>
+      <p>Status: {{status}}</p>
+      <p>Quota: {{quota}} €</p>
+  {{/each}} 
 
 
   <h2 id="request-headline">Requests:</h2>

@@ -12,7 +12,8 @@ router.get('/', ensureLoggedIn('auth/login'), (req, res, next) => {
   .populate('idGrupo')
   .populate('idService')
   .then((belong) => {
-    res.render('index', {belong});
+    console.log(req.username)
+    res.render('index', {belong, username:req.user.username} );
   });
   
 });
