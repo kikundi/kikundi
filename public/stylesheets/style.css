@@ -277,4 +277,56 @@ body {
   width: 50vw;
   justify-content: space-between; }
 
+.groupPage {
+  display: flex; }
+
+.leftPartGroup {
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  height: 90vh;
+  align-items: center; }
+
+.rightPartGroup {
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  height: 90vh;
+  align-items: center; }
+
+.groupImg {
+  background-color: #DDDFD4;
+  width: 40vw;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px; }
+
+.groupImg img {
+  width: 30vw; }
+
+.groupInfo {
+  width: 40vw;
+  color: #DDDFD4;
+  font-weight: 400;
+  font-size: 1.3rem;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #3FB0AC;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  align-items: stretch; }
+
+.groupInfo p {
+  margin-bottom: 20px; }
+
+.groupInfo p:last-child {
+  margin-bottom: 0; }
+
+.groupInfo span {
+  font-weight: 100; }
+
 /*# sourceMappingURL=style.css.map */
