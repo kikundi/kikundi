@@ -285,6 +285,7 @@ body {
   width: 50vw;
   flex-direction: column;
   height: 90vh;
+  justify-content: space-around;
   align-items: center; }
 
 .rightPartGroup {
@@ -292,6 +293,7 @@ body {
   width: 50vw;
   flex-direction: column;
   height: 90vh;
+  justify-content: space-around;
   align-items: center; }
 
 .groupImg {
@@ -315,18 +317,90 @@ body {
   display: flex;
   flex-direction: column;
   border: 2px solid #3FB0AC;
-  padding: 30px;
+  padding: 30px 0;
   box-sizing: border-box;
   border-radius: 15px;
-  align-items: stretch; }
+  align-items: center; }
 
 .groupInfo p {
-  margin-bottom: 20px; }
+  display: flex;
+  width: 30vw;
+  justify-content: space-between;
+  margin-bottom: 10px; }
 
 .groupInfo p:last-child {
   margin-bottom: 0; }
 
 .groupInfo span {
   font-weight: 100; }
+
+.memberGroup {
+  border: 2px solid #DDDFD4;
+  border-radius: 15px;
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  width: 40vw;
+  color: #DDDFD4;
+  font-size: 1.3rem; }
+
+.memberGroupTitle {
+  background-color: #DDDFD4;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vh; }
+
+.memberGroupTitle h2 {
+  color: #173E43;
+  font-size: 1.5rem; }
+
+.memberGroupPayment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0; }
+
+.memberGroupPayment p {
+  width: 30vw;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px; }
+
+.memberGroupPayment :last-child {
+  margin-bottom: 0; }
+
+.memberGroupPayment span {
+  font-weight: 100; }
+
+.memberGroupPayment a {
+  text-decoration: none;
+  color: #FAE596;
+  font-size: 1.5rem;
+  cursor: pointer; }
+
+.memberGroupPayment a:hover {
+  color: #3FB0AC; }
+
+.memberGroupPayment button {
+  text-decoration: none;
+  color: #FAE596;
+  font-size: 1.5rem;
+  background: 0;
+  border: 0;
+  cursor: pointer; }
+
+.memberGroupPayment button:hover {
+  color: #3FB0AC; }
+
+.formGroup {
+  width: 40vw; }
+
+.formGroup button {
+  width: 100%;
+  text-align: center;
+  cursor: pointer; }
 
 /*# sourceMappingURL=style.css.map */
